@@ -9,7 +9,24 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Pri
 $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if($currentPrincipal -ne 'True'){ 
 	write-host 'you done bad. relaunch this as an admin'
-    Exit
+    Break
+}
+
+
+#https://devblogs.microsoft.com/scripting/using-powershell-to-find-connected-network-adapters/
+# get-netadapter -physical | where status -eq 'up'
+# (get-netadapter -physical | where status -eq 'up').ifIndex
+# (get-netadapter -physical | where status -eq 'up').name
+# Get-NetAdapter -physical | Where-Object { $_.Status -ne 'Disconnected' }
+# Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex 7
+# help Set-NetIPAddress -examples
+
+$eths = get-netadapter -physical | where status -eq 'up'
+if( ($eths | measure).Count -ne 1 ){
+    write-host 'You currently have '$eths.count' network adapters online. Connect exactly 1.'
+    Break
+}else{
+    echo hi
 }
 
 write-host 'Enabling the TFTP "windows feature"'
@@ -18,7 +35,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName "TFTP" -all
 $tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State
 if($tftpstate -ne 'Enabled'){
     write-host 'Couldnt enable TFTP feature'
-    Exit
+    Break
 }
 
 $cnt = 0

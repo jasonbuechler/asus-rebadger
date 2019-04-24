@@ -7,6 +7,7 @@ write-host ''
 
 
 
+
 #
 # get the "identity" of the user running powershell
 # then check to see if this identity has admin privileges
@@ -20,16 +21,20 @@ if($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administr
 
 
 
+
+
 #
 # for any future debugging
 # sorry 'bout the laziness
 #
-write-host '** This script is being from from: '$PSScriptRoot
-write-host '** *.trx files in this directory:'
+write-host '** This script is being run from: '$PSScriptRoot
+write-host '** These *.trx files are in this directory:'
 ls *trx
+write-host ''
 write-host '** Proceeding without checking if all the files are present (!!!)'
 write-host ''
 pause
+
 
 
 
@@ -61,16 +66,14 @@ if($tftpstate -ne 'Enabled'){
 
 
 
-
-
 #
 # figure out the ethernet adapter which might be 'Connected' but not 'Up' 
 # (such as in the case of not receiving DHCP)
 # $eths = get-netadapter -physical | where status -eq 'up'
 #
 write-host '** The Badger sees these network adapters:'
-get-netadapter -physical | where status -ne 'Disconnected'
 $eths = get-netadapter -physical | where status -ne 'Disconnected'
+$eths | format-table # !!!!! f#$@ing piece of s@#$*
 write-host ''
 if( ($eths | measure).Count -ne 1 ){
     write-host '** You currently have '$eths.count' network adapters online. Connect exactly 1.'
@@ -122,7 +125,6 @@ while ( (Get-NetIPAddress -InterfaceIndex $ii -AddressFamily ipv4).addressState 
 write-host '** ...done. (Unless you saw some ugly powershell error.)'
 write-host '** Your current configuration looks like:'
 netsh int ip show addresses $eths.name
-pause
 
 
 
@@ -133,36 +135,85 @@ pause
 # now we prompt the user to IRL reboot the router holding the button down continuously
 # ...and try to push tftp image to it
 #
+write-host '****************************************'
+write-host '**                                      '
+write-host '** YOUR INTERVENTION IS NOW REQUIRED'
+write-host '**                                      '
+write-host '** 1. turn the router off using the pushbutton (on the back)'
+write-host '** 2. hold down the reset button (on the back)'
+write-host '**      --> and dont release it until you see a message like this:'
+write-host '**          "Transfer successful: 30126080 bytes in 110 second(s), 273873 bytes/s"'
+write-host '** 3. turn the router on using the pushbutton'
+write-host '** 4. NOW you can hit enter, here'
+write-host '**                                      '
+write-host '****************************************'
+pause
+write-host ''
+write-host ''
+write-host '** Waiting for router to enter recovery mode...'
+write-host '** (If it takes > 40 sec, something went wrong)'
+
+
 $piar = 0
 $threshold = 3
-#while($cnt -lt 60){
-for($i=0; $i -lt 40; $i++){
+$limit = 10 #!!!!!!!!!!!!!! should be 40-ish
+for($i=0; $i -le $limit; $i++){  #!!!!!!!!!!!
     if( test-connection -ComputerName 192.168.29.1 -Quiet -Count 1 ) { $piar++ }
     else{ $piar = 0 }
-    write-host '** '$piar' pings in-a-row, so far'
+    write-host '** ['$i'] '$piar' pings in-a-row, so far'
     if($piar -gt $threshold){ 
+        write-host ''
+        write-host ''
         write-host '** Hey wadda you know its been up for '$piar' in a row...'
         write-host '** Its party time.'
+        write-host ''
+        write-host ''
         break 
     }
 }
-$i
-if($i -eq 39){
-    write-host '** Its been 40 seconds... the window has closed.'
-    write-host '** Its been 40 seconds... the window has closed.'
-    write-host '** Its been 40 seconds... the window has closed.'
-    write-host '** Its been 40 seconds... the window has closed.'
+if($i -ge $limit){
+    write-host '** Its been 40 seconds... the tftp window has closed.'
+    write-host '** Its been 40 seconds... the tftp window has closed.'
+    write-host '** Its been 40 seconds... the tftp window has closed.'
+    write-host '** Its been 40 seconds... the tftp window has closed.'
+    write-host ''
+    write-host '** You should proceed anyway, to set your network adapter back to DHCP'
+    pause
+}else{
+    write-host '** Beginning TFTP transfer!!'
+    write-host '** Remember: youll probably see nothing happening for 2 full agonizing minutes.'
+    write-host '** Keep holding that reset button until you see the xfer was a success!'
+    tftp -i 192.168.29.1 put FW_RT_AC68U_30043763626.trx
+    write-host ''
+    write-host '** The TFTP attempt is over.'
+    write-host '** The Badger now has more for you to do.'
+    write-host '** If it failed, you should proceed anyway, to set your network adapter back to DHCP'
+    pause
 }
 
-tftp -i 192.168.29.1 put FW_RT_AC68U_30043763626.trx
 
+$telnetcmds = @"
 
-#document.querySelector('#telnet_tr').style.display = ''
-#document.querySelector('#telnet_tr').querySelectorAll('.input')[0].disabled = false
-#document.querySelector('#telnet_tr').querySelectorAll('.input')[1].disabled = false
+** Now that the router has older firmware with more options, we must enable telnet:
 
+1. go to 192.168.29.1
+2. sign in as admin/password (the t-mo firmware default)
+3. click the firmware version at the top
+4. click the "system" tab
+5. right click anywhere, and inspect element
+6. click the 'console' tab in the pane that just opened
+7. copy/paste these 3 lines into the console and hit enter
 
+document.querySelector('#telnet_tr').style.display = ''
+document.querySelector('#telnet_tr').querySelectorAll('.input')[0].disabled = false
+document.querySelector('#telnet_tr').querySelectorAll('.input')[1].disabled = false
 
+8. enable Telnet and save
+9. you can now telnet to 192.168.29.1 using admin/password like before
+
+"@
+write-host $telnetcmds
+pause
 
 
 #
@@ -213,9 +264,12 @@ Start-Sleep -Seconds 10
 $ipv4 = (Get-NetIPAddress -InterfaceIndex $ii).IPv4Address
 write-host '** Your network adapters ip address is now '$ipv4
 if( $ipv4 -like '169*'){
+    write-host ''
     write-host '** Since you have a 169 address, the DHCP lease needs to be renewed.'
     write-host '** The Badger is doing his best...'
-    ipconfig /renew $eths.name
+    write-host '** (Executing ipconfig /renew...)'
+    write-host ''
+    ipconfig /renew $eths.name | out-null
     $ipv4 = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex $ii).IPAddress
     write-host '** Your network adapters ip address is now '$ipv4
 }

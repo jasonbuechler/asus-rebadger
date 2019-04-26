@@ -94,7 +94,7 @@ if( ($eths | measure).Count -ne 1 ){
 # set manual IP in subnet 29
 #
 write-host '** The Badger is now attempting to set a manual IP: 192.168.29.xx...'
-write-host '** (Your IP needs to be in subnet 29 to communicate with the T-Mo firmware, in recovery mode)'
+write-host '**   (Your IP needs to be in subnet 29 to communicate with the T-Mo firmware, in recovery mode)'
 write-host ''
 If (($eths | Get-NetIPConfiguration).IPv4Address.IPAddress) {
     Remove-NetIPAddress -AddressFamily ipv4 -Confirm:$false -InterfaceIndex $ii
@@ -142,16 +142,16 @@ write-host '**                                      '
 write-host '** 1. turn the router off using the pushbutton (on the back)'
 write-host '** 2. hold down the reset button (on the back)'
 write-host '**      --> and dont release it until you see a message like this:'
-write-host '**          "Transfer successful: 30126080 bytes in 110 second(s), 273873 bytes/s"'
+write-host '**          "Transfer successful: 16949248 bytes in 62 second(s), 273374 bytes/s"'
 write-host '** 3. turn the router on using the pushbutton'
-write-host '** 4. NOW you can hit enter, here'
+write-host '** 4. NOW you can hit enter, here       '
 write-host '**                                      '
 write-host '****************************************'
 pause
 write-host ''
 write-host ''
 write-host '** Waiting for router to enter recovery mode...'
-write-host '** (If it takes > 40 sec, something went wrong)'
+write-host '**   (If it takes > 40 sec, something went wrong)'
 
 
 $piar = 0
@@ -182,38 +182,63 @@ if($i -ge $limit){
 }else{
     write-host '** Beginning TFTP transfer!!'
     write-host '** Remember: youll probably see nothing happening for 2 full agonizing minutes.'
-    write-host '** Keep holding that reset button until you see the xfer was a success!'
-    tftp -i 192.168.29.1 put FW_RT_AC68U_30043763626.trx
+    write-host '** Keep holding that reset button until you see the xfer was a success.'
     write-host ''
-    write-host '** The TFTP attempt is over.'
+
+    #tftp -i 192.168.29.1 put FW_RT_AC68U_30043763626.trx
+    tftp -i 192.168.29.1 put TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx
+
+    write-host ''
+    write-host '** The TFTP step is over, and the router is probably rebooting at this moment.'
     write-host '** The Badger now has more for you to do.'
-    write-host '** If it failed, you should proceed anyway, to set your network adapter back to DHCP'
+    write-host '**   (If it failed, you should proceed anyway, to reset DHCP)'
     pause
 }
 
 
-$telnetcmds = @"
 
-** Now that the router has older firmware with more options, we must enable telnet:
 
-1. go to 192.168.29.1
-2. sign in as admin/password (the t-mo firmware default)
-3. click the firmware version at the top
-4. click the "system" tab
-5. right click anywhere, and inspect element
-6. click the 'console' tab in the pane that just opened
-7. copy/paste these 3 lines into the console and hit enter
 
-document.querySelector('#telnet_tr').style.display = ''
-document.querySelector('#telnet_tr').querySelectorAll('.input')[0].disabled = false
-document.querySelector('#telnet_tr').querySelectorAll('.input')[1].disabled = false
 
-8. enable Telnet and save
-9. you can now telnet to 192.168.29.1 using admin/password like before
+write-host ''
+write-host '** Waiting for the router to boot back up...'
+write-host '**   (The Badger will wait longer this time, since there is no hurry.)'
+$piar = 0
+$threshold = 20
+$limit = 60 
+for($i=0; $i -le $limit; $i++){  
+    if( test-connection -ComputerName 192.168.29.1 -Quiet -Count 1 ) { $piar++ }
+    else{ $piar = 0 }
+    write-host '** ['$i'] '$piar' pings in-a-row, so far'
+    if($piar -gt $threshold){ 
+        write-host ''
+        write-host '** Oki dokey, its back up, now.'
+        write-host ''
+        break 
+    }
+}
 
-"@
-write-host $telnetcmds
+
+
+write-host '****************************************'
+write-host '**                                      '
+write-host '** YOUR INTERVENTION IS AGAIN REQUIRED  '
+write-host '**                                      '
+write-host '** Now that the router has older firmware with more options, we must enable SSH:'
+write-host '**                                      '
+write-host '**   1. go to http://192.168.29.1/Advanced_System_Content.asp'
+write-host '**   2. sign in as admin/password (the t-mo firmware default)'
+write-host '**   3. click the "system" tab          '
+write-host '**   4. enable SSH in the "SSH Daemon" section'
+write-host '**   5. save/apply the configuration change   '
+write-host '**   6. you can now, (and more importantly, The Badger) can ssh to 192.168.29.1 using admin/password like before'
+write-host '**   7. NOW you can hit enter, here     '
+write-host '**                                      '
+write-host '****************************************'
 pause
+
+
+
 
 
 #
@@ -221,7 +246,8 @@ pause
 # I don't know if we need to pay any attention to the latent netRoute but meh.
 # It does minimize cruft on my screen while testing starting from iffy configs, so...
 #
-write-host '** The Badger is now attempting to use DHCP'
+write-host '** The Badger is now ready to re-enable DHCP...'
+pause
 $interface = Get-NetIPInterface -AddressFamily IPv4 -ifindex $ii
 If ($interface.Dhcp -eq "Disabled") {
 

@@ -1,24 +1,44 @@
+##########################################################
+##
+## IF YOU OPENED THIS SCRIPT IN "PowerShell ISE"...
+##    (as opposed to 'executing' it)
+##       ...HIT THE GREEN 'PLAY/TRIANGLE', ABOVE.
+##
+##########################################################
+cd $PSScriptRoot
+$pwd = pwd
 write-host ''
 write-host '****************************'
 write-host '** The Badger is on the move'
 write-host '****************************'
-write-host ''
-
-
-
+write-host 'pwd is '$pwd
 
 
 #
-# get the "identity" of the user running powershell
-# then check to see if this identity has admin privileges
-# bail if not
+# verify we are an admin, and
+# verify we are NOT using ISE (since that blocks interactive ssh)
 #
+$reopen = $false;
+if ($host.name -match 'ISE') {
+    $reopen = $true;
+}
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -ne 'True'){ 
-	write-host '** You done bad. relaunch this as an admin'
-    Break
+	$reopen = $true;
 }
-
+if($reopen){
+    write-host '** This script needs to run with admin privileges, and outside of the ISE.'
+    write-host '** The Badger will relaunch this script after you hit Enter, below.'
+    write-host '** When you do so, you will be prompted by Windows User-Account-Control'
+    write-host '** to grant admin rights & then this script will relaunch in another window.'
+    write-host ''
+    write-host '                   ^^^ READ THIS ^^^'
+    write-host ''
+    pause
+    # Relaunch as an elevated process:
+    Start-Process powershell.exe "-File",('"{0}"' -f $MyInvocation.MyCommand.Path) -Verb RunAs
+    exit
+}
 
 
 
@@ -72,11 +92,12 @@ if($tftpstate -ne 'Enabled'){
 # $eths = get-netadapter -physical | where status -eq 'up'
 #
 write-host '** The Badger sees these network adapters:'
-$eths = get-netadapter -physical | where status -ne 'Disconnected'
+$eths = get-netadapter -physical | where status -eq 'up'
 $eths | format-table # !!!!! f#$@ing piece of s@#$*
 write-host ''
 if( ($eths | measure).Count -ne 1 ){
     write-host '** You currently have '$eths.count' network adapters online. Connect exactly 1.'
+    pause
     Break
 }else{
     $ii = $eths.ifIndex
@@ -182,12 +203,12 @@ if($i -ge $limit){
 }else{
     write-host '** Beginning TFTP transfer!!'
     write-host '** Remember: youll probably see nothing happening for 2 full agonizing minutes.'
-    write-host '** Keep holding that reset button until you see the xfer was a success.'
+    write-host '** Keep holding that reset button until you see the xfer is complete.'
     write-host ''
 
-    #tftp -i 192.168.29.1 put FW_RT_AC68U_30043763626.trx
     tftp -i 192.168.29.1 put TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx
-
+    write-host '                    ^^^^^^'
+    write-host '                THIS IS THE TFTP RESULT!'
     write-host ''
     write-host '** The TFTP step is over, and the router is probably rebooting at this moment.'
     write-host '** The Badger now has more for you to do.'
@@ -221,24 +242,96 @@ for($i=0; $i -le $limit; $i++){
 
 
 write-host '****************************************'
-write-host '**                                      '
-write-host '** YOUR INTERVENTION IS AGAIN REQUIRED  '
-write-host '**                                      '
+write-host '**                                            '
+write-host '** YOUR INTERVENTION IS AGAIN REQUIRED        '
+write-host '**                                            '
 write-host '** Now that the router has older firmware with more options, we must enable SSH:'
-write-host '**                                      '
+write-host '**                                            '
 write-host '**   1. go to http://192.168.29.1/Advanced_System_Content.asp'
 write-host '**   2. sign in as admin/password (the t-mo firmware default)'
-write-host '**   3. click the "system" tab          '
+write-host '**   3. click the "system" tab                '
 write-host '**   4. enable SSH in the "SSH Daemon" section'
 write-host '**   5. save/apply the configuration change   '
-write-host '**   6. you can now, (and more importantly, The Badger) can ssh to 192.168.29.1 using admin/password like before'
-write-host '**   7. NOW you can hit enter, here     '
-write-host '**                                      '
+write-host '**   6. You now should be able to ssh to admin:password@192.168.29.1 '
+write-host '**      ...and The Badger will attempt to do so, next.'
+write-host '**   7. NOW you can hit enter, here           '
+write-host '**                                            '
 write-host '****************************************'
 pause
 
 
 
+write-host '**  YOU GON HAFTA TYPE password & HIT enter... TWO TIMES IN A ROW, SOON'
+write-host '**  GOT IT?  THAT IS (2) TIMES IN A ROW! If youre ready, hit enter now.'
+
+$opts = '-oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false'
+ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "cat /dev/mtd0 > original_cfe.bin; ls -al"
+scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1:~/original_cfe.bin ./original_cfe.bin
+#ssh $opts admin@192.168.29.1 "cat /dev/mtd0 > original_cfe.bin; ls -al"
+#scp $opts admin@192.168.29.1:~/original_cfe.bin ./original_cfe.bin
+
+################
+
+write-host '** do your homework with the website > new_cfe.bin'
+
+################
+
+write-host '** Now copying 3 files to the router...'
+scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
+write-host '** ...copy complete.'
+write-host '** Now listing files, installing bootloader, and installing FW_RT_AC68U_30043763626.trx...'
+ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "chmod 777 mtd-write; ls -al; ./mtd-write -i new_cfe.bin -d boot && mtd-write2 FW_RT_AC68U_30043763626.trx linux"
+write-host '** ...all that junk is complete. You do NOT need to reboot via webgui or SSH.'
+write-host '** (Below, we will be using the routers physical buttons again.)'
+
+####
+
+
+$tricky = @"
+** a. wait for reboot. reboot is complete...
+**    --> when 192.168.1.1 responds to ping, and 
+**    --> when both 2.4/5ghz wifi LEDs are on
+** 
+** NOW WE NVRAM RESET!!!
+** b. Power off router
+** c. Wait 10 seconds
+** d. Press and hold WPS button
+** e. Power up the router and continue to hold WPS button for 15-20 seconds until power LED starts blinking very quickly
+** f. release the WPS button, and wait for the router to reboot again
+** 
+** Now we log in to the webgui, and enable ssh
+** g. (verify you have already) Reset PC IP back to default
+** h. Web-browser into router using ONLY using "http://192.168.1.1" (not an internal config page)
+** i. For username/password, remember it is now: admin/admin
+** j. skip the wizard, accept default all default settings, and enable SSH in system 
+** 
+** Now we SSH in and add the magic sauce
+..............................................
+cat /dev/mtd5 > /jffs/mtd5_backup.bin
+mkdir /tmp/asus_jffs
+mount -t jffs2 /dev/mtdblock5 /tmp/asus_jffs
+rm -rf /tmp/asus_jffs/*
+sync && umount /tmp/asus_jffs
+rm -rf /jffs/.sys/RT-AC68U
+nvram unset fw_check && nvram commit && reboot
+...............................................
+
+** Now we verify it's done (and if not, we try again)
+** k. The top-left logo should now say "RT-ac68u" instead of "TM-AC1900"
+** l. if it still says "TM-AC1900" start over at (a)
+"@
+
+write-host ''
+write-host '** We are now going to loop'
+write-host ''
+
+for($i=0; $i -lt 5; $i++){ 
+    $ip1 = $i+1
+    write-host '** [ROUND '$ip1' OF 5]'
+    write-host $tricky
+    write-host ''
+    pause
+}
 
 
 #
@@ -306,6 +399,34 @@ netsh int ip show addresses $eths.name
 
 
 
+$bayareatechpros = @"
+
+https://www.bayareatechpros.com/ac1900-to-ac68u/
+
+mtd-write2 FW_RT_AC68U_30043763626.trx linux
+Perform NVRAM Reset, wait for reboot <5 mins
+a. Power off router
+b. Wait 10 seconds
+c. Press and hold WPS button
+d. Power up the router and continue to hold WPS button for 15-20 seconds until power LED starts blinking very quickly.
+Reset PC IP back to default
+Log in to router using 192.168.1.1 and the router is now an AC68U with 64MB jffs
+username:/password is now: admin:admin
+Enable SSH (see #10) and execute the code for fixing MTD5 partition that is listed below.
+Ezlink: http://192.168.1.1/Advanced_System_Content.asp
+You can now flash Asus, Merlin, Advanced Tomato, Tomato, and DD-WRT firmwares.
+Code for fixing MTD5 partition so you can update to latest firmware:
+(this is entered in Putty after enabling SSH on the router)
+
+cat /dev/mtd5 > /jffs/mtd5_backup.bin
+mkdir /tmp/asus_jffs
+mount -t jffs2 /dev/mtdblock5 /tmp/asus_jffs
+rm -rf /tmp/asus_jffs/*
+sync && umount /tmp/asus_jffs
+rm -rf /jffs/.sys/RT-AC68U
+nvram unset fw_check && nvram commit && reboot
+
+"@
 
 
 #https://www.bleepingcomputer.com/news/microsoft/heres-how-to-enable-the-built-in-windows-10-openssh-client/

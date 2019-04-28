@@ -1,0 +1,360 @@
+
+****************************
+** The Badger is on the move
+****************************
+
+** Host machine: Microsoft Windows NT 10.0.17134.0 (1803)
+** TFTP state: Enabled
+** This script is being run from: C:\Users\jason\Documents\asus-rebadger
+** These *.trx files are in this directory:
+
+
+    Directory: C:\Users\jason\Documents\asus-rebadger
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----       11/11/2014   6:24 AM       30126080 FW_RT_AC68U_30043763626.trx
+-a----        3/24/2019   3:41 PM       36818944 MERLIN_RT-AC68U_384.10_0.trx
+-a----         8/5/2014   2:35 PM       16949248 TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx
+
+** Proceeding without checking if all the files are present (!!!)
+
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: x
+
+You need to select your network adapter before you can do this.
+  (use menu option A)
+Press Enter to continue...:
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: a
+
+** The Badger sees these network adapters:
+
+
+
+Name                      InterfaceDescription                    ifIndex Status       MacAddress             LinkSpeed
+----                      --------------------                    ------- ------       ----------             ---------
+Ethernet 5                Intel(R) Ethernet Connection (2) I219-V      11 Up           30-9C-23-88-0E-0C         1 Gbps
+
+
+
+** Your network adapter is #11
+** Your network adapters name is Ethernet 5
+** Your current configuration looks like:
+
+Configuration for interface "Ethernet 5"
+    DHCP enabled:                         Yes
+    IP Address:                           192.168.1.85
+    Subnet Prefix:                        192.168.1.0/24 (mask 255.255.255.0)
+    Default Gateway:                      192.168.1.1
+    Gateway Metric:                       0
+    InterfaceMetric:                      25
+
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: x
+
+
+Name                      InterfaceDescription                    ifIndex Status       MacAddress             LinkSpeed
+----                      --------------------                    ------- ------       ----------             ---------
+Ethernet 5                Intel(R) Ethernet Connection (2) I219-V      11 Up           30-9C-23-88-0E-0C         1 Gbps
+
+
+** Your network adapter is #11
+** Your network adapters name is Ethernet 5
+** Your current configuration looks like:
+
+Configuration for interface "Ethernet 5"
+    DHCP enabled:                         Yes
+    IP Address:                           192.168.1.85
+    Subnet Prefix:                        192.168.1.0/24 (mask 255.255.255.0)
+    Default Gateway:                      192.168.1.1
+    Gateway Metric:                       0
+    InterfaceMetric:                      25
+
+Press Enter to continue...:
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: b
+
+
+Name                      InterfaceDescription                    ifIndex Status       MacAddress             LinkSpeed
+----                      --------------------                    ------- ------       ----------             ---------
+Ethernet 5                Intel(R) Ethernet Connection (2) I219-V      11 Up           30-9C-23-88-0E-0C         1 Gbps
+
+
+
+**   99% chance you can ignore the above error, if there is one
+**   99% chance you can ignore the above error, if there is one
+
+** (Waiting for IPv4 address to finalize...)
+** (Waiting for IPv4 address to finalize...)
+** ...done. (Unless you saw some ugly powershell error.)
+** Your current configuration looks like:
+
+Configuration for interface "Ethernet 5"
+    DHCP enabled:                         No
+    IP Address:                           192.168.29.5
+    Subnet Prefix:                        192.168.29.0/24 (mask 255.255.255.0)
+    Default Gateway:                      192.168.29.1
+    Gateway Metric:                       256
+    InterfaceMetric:                      25
+
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: x
+
+
+Name                      InterfaceDescription                    ifIndex Status       MacAddress             LinkSpeed
+----                      --------------------                    ------- ------       ----------             ---------
+Ethernet 5                Intel(R) Ethernet Connection (2) I219-V      11 Up           30-9C-23-88-0E-0C         1 Gbps
+
+
+** Your network adapter is #11
+** Your network adapters name is Ethernet 5
+** Your current configuration looks like:
+
+Configuration for interface "Ethernet 5"
+    DHCP enabled:                         No
+    IP Address:                           192.168.29.5
+    Subnet Prefix:                        192.168.29.0/24 (mask 255.255.255.0)
+    Default Gateway:                      192.168.29.1
+    Gateway Metric:                       256
+    InterfaceMetric:                      25
+
+
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation: h
+
+** The Badger is now ready to re-enable DHCP...
+** The Badger is taking a 10 second break to check his phone.
+** (Also, Windows is checking your DHCP lease.)
+** Your network adapters ip address is now   192.168.1.85
+
+** Your current configuration looks like:
+
+Configuration for interface "Ethernet 5"
+    DHCP enabled:                         Yes
+    IP Address:                           192.168.1.85
+    Subnet Prefix:                        192.168.1.0/24 (mask 255.255.255.0)
+    Default Gateway:                      192.168.1.1
+    Gateway Metric:                       0
+    InterfaceMetric:                      25
+
+
+
+/========= MAIN MENU / INSTRUCTIONS ==============================
+|  a) verify/select your ethernet adapter
+|  b) set manual IP in subnet 29
+|  ** Boot router into recovery mode:
+|  **    turn on router while holding reset (> 2min)
+|  c) Perform (D) and (E) together
+|  d)    wait for router to return on subnet 29
+|  e)    TFTP flash old Tmo FW via subnet
+|  ** Enable SSH on router (Administration > System)
+|  f) download Tmo CFE to local
+|  ** Use that website and your CFE to create/download a new CFE
+|  g) upload mod-CFE etc then write CFE and FW
+|  h) set auto IP by DHCP
+|  ** Perform NVRAM reset
+|  **    turn on router while holding WPS (~ 15sec)
+|  i) wait for router to return on subnet 1
+|  j) secret sauce to clean MTD
+|
+|  NOTE: **Steps (G) thru (J) must be executed exactly
+|        in order and without interuption. Repeat steps
+|        F thru I if anything wasn't perfect.
+|        **Step (G) assumes your IP is set in subnet-29
+|        (step-B), and that the router is on, and is
+|        actively responding (step-D).
+|
+|  X) show current network config
+|  Y) set manual IP in subnet 1
+|  Z) TFTP flash old Tmo FW via subnet 1
+\=================================================================
+
+Enter the letter for an operation:

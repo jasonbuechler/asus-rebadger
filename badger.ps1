@@ -6,7 +6,7 @@
 ##
 ##########################################################
 ## 
-## The Badger v1.0.0 by Jason Buechler
+## The Badger v2.0.0 by Jason Buechler
 ##
 
 write-host ''

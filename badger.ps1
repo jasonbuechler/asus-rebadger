@@ -1,4 +1,5 @@
-﻿##########################################################
+
+##########################################################
 ##
 ## IF YOU OPENED THIS SCRIPT IN "PowerShell ISE"...
 ##    (as opposed to 'executing' it)
@@ -6,7 +7,7 @@
 ##
 ##########################################################
 ## 
-## The Badger v2.0.0 by Jason Buechler
+## The Badger v2.1.0 by Jason Buechler
 ##
 
 write-host ''

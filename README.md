@@ -8,9 +8,7 @@ REQUIREMENTS:
 
 MAKE IT DO:
 * verify you've collected all the files in one place (see below)
-* you can either 
-  * right click badger.ps1 and "Run with PowerShell", or
-  * just double click it
+* right click badger.ps1 and "Run with PowerShell"
 * if it opens in PowerShell ISE, you'll see the green-text note at the top saying to run it using the green play/triangle button
 * however you run it, if it determines you need to do so, it will alert you that it will relaunch itself properly 
  

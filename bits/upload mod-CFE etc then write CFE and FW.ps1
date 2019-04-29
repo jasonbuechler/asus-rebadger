@@ -4,6 +4,7 @@ pause
 
 rm  ~/.ssh/*
 
+write-host ''
 write-host '** Now copying 3 files to the router via SCP...'
 write-host '**   (new_cfe.bin, mtd-write, FW_RT_AC68U_30043763626.trx)'
 scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
@@ -18,4 +19,4 @@ write-host '**             mtd-write2 FW_RT_AC68U_30043763626.trx linux)  '
 write-host ''
 ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "chmod 777 mtd-write; ls -al; ./mtd-write -i new_cfe.bin -d boot; mtd-write2 FW_RT_AC68U_30043763626.trx linux"
 
-write-host '** (Should be a CRC verification after mtd-write2)'
+write-host '** (Should be a CRC verification, above, after mtd-write2 runs)'

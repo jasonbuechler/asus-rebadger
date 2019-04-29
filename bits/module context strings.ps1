@@ -59,8 +59,8 @@ $e1 = @"
 "@
 
 $e2 = @"
-					^^^^^^
-				THIS IS THE TFTP RESULT!
+                    ^^^^^^
+                THIS IS THE TFTP RESULT!
 -----------------------------------------------------
 
 ** The TFTP step is over.
@@ -90,7 +90,33 @@ $e2 = @"
 
 $f1 = @"
 
+********** YOUR PARTICIPATION NOW REQUIRED ***************************************
+**                                                                                            
+** The Badger should have just downloaded your original bootloader 
+** (original_cfe.bin) to the same directory as everything else.
+** Now you need to create a modified CFE using it...
+**                                            
+**   1. go to https://cfeditor.pipeline.sh/
+**   2. click the "up arrow" under "original cfe"
+**   3. select "1.0.2.0 US" under "source cfe" 
+**      (you can do more advanced ones later)            
+**   4. click the "down arrow" under "target cfe" to download
+**   5. move the downloaded file to the same folder as badger.ps1  
+**   6. rename that downloaded file to "new_cfe.bin" 
+**      (make absolutely sure it's not named "new_cfe.bin.bin" or something)
+**                                            
+** The Badger can now upload all the goodies to the router and flash the FW.
+**
+**********************************************************************************
 
+
+********** NEXT STEPS ***************************************************
+**                                      
+** Now we are ready to put the router into recovery mode.
+**                                      
+** It is kinda tricky, so when you choose (c), instructions will follow
+**                                      
+*************************************************************************
 
 "@
 
@@ -109,6 +135,9 @@ $g1 = @"
 **    > ls -al
 **    > ./mtd-write -i new_cfe.bin -d boot 
 **    > mtd-write2 FW_RT_AC68U_30043763626.trx linux
+
+** In a moment, you will again be twice prompted to type a password.
+** This password is "password".
 
 "@
 
@@ -144,6 +173,10 @@ $g2 = @"
 ** history. The default credentials have also changed. Its IP address 
 ** will now be 192.168.1.1 with admin/admin.
 **                                      ^--- not "password" anymore
+**
+** When you can, you also will need to enable SSH (again).
+** (If you need them again, detailed instructions will be provided again
+**  in the "secret sauce to clean MTD" step.)
 **                                      
 *************************************************************************
 

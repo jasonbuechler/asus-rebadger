@@ -10,12 +10,13 @@
 |  e)    TFTP flash old Tmo FW via subnet 
 |  ** Enable SSH on router (Administration > System)
 |  f) download Tmo CFE to local
-|  ** Use that website and your CFE to create/download a new CFE
-|  g) upload mod-CFE etc then write CFE and FW
+|  ** Use your CFE and cfeditor.pipeline.sh to make new_cfe.bin
+|  g) upload mod'd CFE & etc then "write" CFE and FW
 |  ** Perform NVRAM reset
 |  **    turn on router while holding WPS (~ 15sec)
 |  h) set auto IP by DHCP
 |  i) wait for router to return on subnet 1
+   ** Enable SSH on router (again)
 |  j) secret sauce to clean MTD
 |
 |  NOTE: **Steps (G) thru (J) must be executed exactly

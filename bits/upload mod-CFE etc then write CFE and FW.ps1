@@ -1,6 +1,15 @@
-﻿write-host ""
-write-host "Oh, because I couldn't think of a(n easy) better way, this script will delete your ~/.ssh/* if you proceed"
-write-host "This won't matter to 99.99% of people, including people who don't know what this is. Proceed?"
+﻿$preupload = @"
+
+** Oh, because I couldn't think of a(n easy) better way, this script will delete your ~/.ssh/* if you proceed
+** This won't matter to 99.99% of people, including people who don't know what this is. 
+                    ^^^^^^^^^ read this ^^^^^^^^^^
+
+** In a moment, you will TWICE be prompted to type a password.
+** This password is "password".
+
+"@
+
+write-host $preupload
 pause
 
 rm  ~/.ssh/*
@@ -34,6 +43,8 @@ $postSSH = @"
 ** ...SSH executation phase comp.. comp.. com... compl... complete.
 ** Above, you should just see the remote directory listing AND right under
 ** it, "linux: CRC OK" if the trx flashed successfully.
+**
+** (If instead you saw "BUS ERROR", you should reboot the router, wait, and try this again.)
 
 "@
 write-host $postSSH

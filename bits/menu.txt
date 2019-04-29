@@ -16,7 +16,7 @@
 |  **    turn on router while holding WPS (~ 15sec)
 |  h) set auto IP by DHCP
 |  i) wait for router to return on subnet 1
-   ** Enable SSH on router (again)
+|  ** Enable SSH on router (again)
 |  j) secret sauce to clean MTD
 |
 |  NOTE: **Steps (G) thru (J) must be executed exactly

@@ -1,4 +1,11 @@
-﻿write-host "** The Badger sees these network adapters:"
+﻿write-host "** BEFORE PROCEEDING..."
+write-host "**  make sure your computer is directly connected to"
+write-host "**  a YELLOW ethernet port (specifically #1) on the router."
+write-host "**  AKA: don't be connected to the BLUE wan port."
+write-host ""
+pause
+
+write-host "** The Badger sees these network adapters:"
 $eths = get-netadapter -physical | where status -in ("Up","Connected")
 $eths | format-table
 write-host ''

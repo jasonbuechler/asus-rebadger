@@ -5,8 +5,9 @@
     Exit
 }
 
-$eths | format-table
-
+# "log" the current configuration for any future debugging
+. '.\bits\show current network config.ps1'
+write-host '** The Badger is now attempting to set a manual IP: 192.168.29.xx...'
 
 # clean out old records
 If (($eths | Get-NetIPConfiguration).IPv4Address.IPAddress) {

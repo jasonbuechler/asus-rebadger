@@ -1,5 +1,4 @@
 ﻿write-host '** Waiting for the router to boot back up...'
-write-host '**   (The Badger will wait up to 5 full minutes this time, reporting every 10 tries)'
 $piar = 0
 $threshold = 20
 $limit = 300 

@@ -5,7 +5,12 @@
     Exit
 }
 
-write-host '** The Badger is now ready to re-enable DHCP...'
+
+#
+# apparently (?) it's a best practice (or necesssary?) to remove
+# previous "net routes" before re-enabling DHCP. *shrug*
+#
+write-host '** The Badger is now attempting to get an IP automatically through DHCP...'
 $interface = Get-NetIPInterface -AddressFamily IPv4 -ifindex $ii
 If ($interface.Dhcp -eq "Disabled") {
 
@@ -14,14 +19,23 @@ If ($interface.Dhcp -eq "Disabled") {
         #$interface | Remove-NetRoute -Confirm:$false
         #Remove-NetRoute -NextHop 192.168.29.1
         Remove-NetRoute -InterfaceIndex $ii -Confirm:$false
+        write-host ''
+        write-host '** If there is a "NetRoute" error above... 99% chance you can just ignore it.'
+        write-host ''
     }
 
     # Enable DHCP
     $interface | Set-NetIPInterface -DHCP Enabled
+
     # Configure the DNS Servers automatically
     #$interface | Set-DnsClientServerAddress -ResetServerAddresses
 }
 
+#
+# this part is not quite the same thing as "waiting for router to come back up"
+#   (re: the other modules by similar names)
+# this part mostly exists to make sure DHCP gets renewed
+#
 while ( -not (Get-NetIPAddress -InterfaceIndex $ii).ipv4address ){
     write-host '** (Waiting for IPv4 address to set...)'
     Start-Sleep -Seconds 2

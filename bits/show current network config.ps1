@@ -6,11 +6,10 @@ if(-not $ii){
     Exit
 }
 
+write-host "** The Badger notes your current configuration is:"
 $eths | format-table
-
 write-host "** Your network adapter is #$ii"
 write-host "** Your network adapters name is" $eths.name
 write-host "** Your current configuration looks like:"
 netsh int ip show addresses $eths.name
-
 write-host ''

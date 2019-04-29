@@ -12,9 +12,9 @@
 |  f) download Tmo CFE to local
 |  ** Use that website and your CFE to create/download a new CFE
 |  g) upload mod-CFE etc then write CFE and FW
-|  h) set auto IP by DHCP
 |  ** Perform NVRAM reset
 |  **    turn on router while holding WPS (~ 15sec)
+|  h) set auto IP by DHCP
 |  i) wait for router to return on subnet 1
 |  j) secret sauce to clean MTD
 |

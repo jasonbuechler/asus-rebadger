@@ -60,11 +60,11 @@ $e1 = @"
 
 $e2 = @"
                     ^^^^^^
-                THIS IS THE TFTP RESULT!
+                THIS IS THE TFTP RESULT! 
 -----------------------------------------------------
 
 ** The TFTP step is over.
-** If all went well, the router is probably rebooting at this moment.
+** If all went well, the router should be rebooting right now.
 ** 
 ** You'll know it's fully rebooted when both 2.4 & 5ghz wifi LEDs are on.
 
@@ -109,35 +109,12 @@ $f1 = @"
 **
 **********************************************************************************
 
-
-********** NEXT STEPS ***************************************************
-**                                      
-** Now we are ready to put the router into recovery mode.
-**                                      
-** It is kinda tricky, so when you choose (c), instructions will follow
-**                                      
-*************************************************************************
-
 "@
 
 
 
 
 $g1 = @"
-
-** The Badger is gonna...
-** First, upload files via SCP:
-**    * new_cfe.bin
-**    * mtd-write
-**    * FW_RT_AC68U_30043763626.trx
-** Then, list files, install bootloader, and install FW_RT_AC68U_30043763626.trx:
-**    > chmod 777 mtd-write 
-**    > ls -al
-**    > ./mtd-write -i new_cfe.bin -d boot 
-**    > mtd-write2 FW_RT_AC68U_30043763626.trx linux
-
-** In a moment, you will again be twice prompted to type a password.
-** This password is "password".
 
 "@
 
@@ -191,7 +168,7 @@ $j1 = @"
 ********** YOUR PARTICIPATION NOW REQUIRED ***************************************
 **                                                                                            
 ** If you haven't done so already, because the router has been reset 
-** with newer Asus firmware, we must enable SSH again:
+** with newer (Asus) firmware, we must enable SSH again:
 **                                            
 **   1. go to http://192.168.1.1/Advanced_System_Content.asp
 **   2. sign in as admin/admin (the asus firmware default)
@@ -199,6 +176,7 @@ $j1 = @"
 **   4. enable SSH in the "SSH Daemon" section
 **   5. save/apply the configuration change   
 **   6. One now should be able to ssh to admin:password@192.168.1.1    
+**   7. The Badger will SSH in to add the secret sauce when you hit Enter, below
 **                                            
 **********************************************************************************
 

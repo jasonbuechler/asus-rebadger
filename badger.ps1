@@ -7,7 +7,7 @@
 ##
 ##########################################################
 ## 
-## The Badger v2.1.0 by Jason Buechler
+## The Badger v2.2.0 by Jason Buechler
 ##
 
 write-host ''
@@ -125,18 +125,18 @@ Switch -regex ($bit){
         pause
     }
     f{ # download Tmo CFE to local
-        write-host '** In a moment, you will TWICE be prompted to type a password.'
-        write-host '** This password is "password".'
-        pause
+
         . '.\bits\download Tmo CFE to local.ps1'
         write-host $f1
+		pause
+		
     }
     g{ # upload mod-CFE etc then write CFE and FW
-        write-host $g1
-		pause
+
         . '.\bits\upload mod-CFE etc then write CFE and FW.ps1'
         write-host $g2
         pause
+		
     }
     h{ # set auto IP by dhcp
         . '.\bits\set auto IP by DHCP.ps1'

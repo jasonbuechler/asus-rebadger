@@ -1,4 +1,4 @@
-##########################################################
+﻿##########################################################
 ##
 ## IF YOU OPENED THIS SCRIPT IN "PowerShell ISE"...
 ##    (as opposed to 'executing' it)
@@ -6,7 +6,7 @@
 ##
 ##########################################################
 ## 
-## The Badger v1.0 by Jason Buechler
+## The Badger v1.0.0 by Jason Buechler
 ##
 
 write-host ''
@@ -75,11 +75,99 @@ ls *trx
 write-host ''
 write-host '** Proceeding without checking if all the files are present (!!!)'
 write-host ''
-write-host 'Because the known-hosts file in your ~/.ssh/ will cause problems... ima delete it. If you know you actively use this and want to cancel, this is your only chance.'
-pause
-rm  ~/.ssh/*
 
 
+
+
+# load strings for module context
+. '.\bits\module context strings.ps1'
+
+$history = ''
+while(1){ 
+    type .\bits\menu.txt
+    write-host "   [History: $history ]"
+    write-host ""
+    $bit = Read-Host -Prompt "Enter the letter for an operation"
+    $bit = $bit.substring(0,1)
+    write-host ''
+Switch -regex ($bit){
+    a{ # verify/select your ethernet adapter
+
+        . '.\bits\select ethernet adapter.ps1'
+        write-host $a1
+        pause
+
+    }
+    b{ # set manual IP in subnet 29
+        write-host '** (We use subnet 29 because when youre using T-Mo firmware, in recovery mode is hard-coded for that.)'
+        write-host ''
+        . '.\bits\set manual IP in subnet 29.ps1'
+        write-host $b1
+        pause
+    }
+    c{ # chain D and E 
+        write-host $c1
+        pause
+        . '.\bits\wait for router to return on subnet 29.ps1'
+        . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
+    }
+    d{ # wait for router to return on subnet 29
+        #looks like i'll have to add some more logic for the short window
+        write-host '** Waiting for router to enter recovery mode...'
+        write-host '**   (If it takes > 40 sec, something went wrong)'
+        . '.\bits\wait for router to return on subnet 29.ps1'
+    }
+    e{ # TFTP flash old Tmo FW via subnet 29 
+        write-host $e1
+        . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
+        write-host $e2
+        pause
+    }
+    f{ # download Tmo CFE to local
+        write-host '** In a moment, you will TWICE be prompted to type a password.'
+        write-host '** This password is "password".'
+        pause
+        . '.\bits\download Tmo CFE to local.ps1'
+        write-host $f1
+    }
+    g{ # upload mod-CFE etc then write CFE and FW
+        write-host '** In a moment, you will again be twice prompted to type a password.'
+        write-host '** This password is "password".'
+        pause
+        write-host $g1
+        . '.\bits\upload mod-CFE etc then write CFE and FW.ps1'
+        write-host $g2
+        pause
+    }
+    h{ # set auto IP by dhcp
+        . '.\bits\set auto IP by DHCP.ps1'
+    }
+    i{
+        . '.\bits\wait for router to return on subnet 1.ps1'
+    }
+    j{
+        write-host $j1
+        pause
+        . '.\bits\secret sauce to clean MTD.ps1'
+    }
+
+
+    x{ # show current network config
+        . '.\bits\show current network config.ps1'
+    }
+    y{ # set manual IP in subnet 1
+        . '.\bits\set manual IP in subnet 1.ps1'
+    }
+    z{ # TFTP flash old Tmo FW via subnet 1
+        . '.\bits\TFTP flash old Tmo FW via subnet 1.ps1'
+    }
+
+    '[a-jx-zA-JX-Z]'{ $history += "$bit," }
+}}
+
+
+
+Exit
 
 
 #
@@ -330,7 +418,7 @@ write-host '** Now copying 3 files to the router via SCP...'
 write-host '**   (new_cfe.bin, mtd-write, FW_RT_AC68U_30043763626.trx)'
 #scp $opts376_1703 new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
 scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
-write-host '** ...SCP copy complete.'
+write-host '** ...SCP upload complete.'
 write-host ''
 write-host '** Now listing files, installing bootloader, and installing FW_RT_AC68U_30043763626.trx...'
 write-host '**   (chmod 777 mtd-write -->  '

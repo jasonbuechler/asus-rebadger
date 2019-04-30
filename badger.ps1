@@ -107,10 +107,22 @@ Switch -regex ($bit){
         pause
     }
     c{ # chain D and E 
-        write-host -foregroundcolor green $c1
+        write-host -foregroundcolor green $c1 #chain instructions
         pause
+		
+		
+		#this part is a copy of switch 'd'	
+		write-host '** Waiting for router to enter recovery mode...'
+        write-host '**   (If it takes > 40 sec, something went wrong)'
         . '.\bits\wait for router to return on subnet 29.ps1'
+
+		
+		#this part is a copy of switch 'e'
+        write-host $e1 # start tftp + 2 agonizing mins
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
+        write-host $e2 # this is the tftp result & it's rebooting
+		write-host -foregroundcolor green $e3 # enable ssh instructions
+        pause
     }
     d{ # wait for router to return on subnet 29
         #looks like i'll have to add some more logic for the short window
@@ -119,10 +131,10 @@ Switch -regex ($bit){
         . '.\bits\wait for router to return on subnet 29.ps1'
     }
     e{ # TFTP flash old Tmo FW via subnet 29 
-        write-host $e1
+        write-host $e1 # start tftp + 2 agonizing mins
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
-        write-host $e2
-		write-host -foregroundcolor green $e3
+        write-host $e2 # this is the tftp result & it's rebooting
+		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }
     f{ # download Tmo CFE to local

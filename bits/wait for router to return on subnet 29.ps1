@@ -3,7 +3,7 @@ $piar = 0
 $threshold = 3
 $limit = 40 #should be 40-ish because the TFTP window closes fast
 for($i=0; $i -le $limit; $i++){
-    if( test-connection -ComputerName 192.168.29.1 -Quiet -Delay 1 -Count 1 ) { 
+    if( test-connection -ComputerName 192.168.29.1 -Quiet -delay 1 -Count 1 ) { 
         $piar++ 
     }
     else{ $piar = 0 }

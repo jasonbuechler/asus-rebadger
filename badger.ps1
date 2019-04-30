@@ -89,7 +89,7 @@ while(1){
     write-host "   [History: $history ]"
     write-host ""
     $bit = Read-Host -Prompt "Enter the letter for an operation"
-    $bit = $bit.substring(0,1)
+    if($bit){ $bit = $bit.substring(0,1) }
     write-host ''
 Switch -regex ($bit){
     a{ # verify/select your ethernet adapter

@@ -85,7 +85,7 @@ write-host ''
 
 $history = ''
 while(1){ 
-    type .\bits\menu.txt
+    write-host -foregroundColor yellow $menu
     write-host "   [History: $history ]"
     write-host ""
     $bit = Read-Host -Prompt "Enter the letter for an operation"
@@ -95,7 +95,7 @@ Switch -regex ($bit){
     a{ # verify/select your ethernet adapter
 
         . '.\bits\select ethernet adapter.ps1'
-        write-host $a1
+        write-host -foregroundcolor green $a1
         pause
 
     }
@@ -103,11 +103,11 @@ Switch -regex ($bit){
         write-host '** (We use subnet 29 because when youre using T-Mo firmware, in recovery mode is hard-coded for that.)'
         write-host ''
         . '.\bits\set manual IP in subnet 29.ps1'
-        write-host $b1
+        write-host -foregroundcolor green $b1
         pause
     }
     c{ # chain D and E 
-        write-host $c1
+        write-host -foregroundcolor green $c1
         pause
         . '.\bits\wait for router to return on subnet 29.ps1'
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
@@ -122,41 +122,49 @@ Switch -regex ($bit){
         write-host $e1
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
         write-host $e2
+		write-host -foregroundcolor green $e3
         pause
     }
     f{ # download Tmo CFE to local
 
         . '.\bits\download Tmo CFE to local.ps1'
-        write-host $f1
+        write-host -foregroundcolor green $f1
 		pause
 		
     }
     g{ # upload mod-CFE etc then write CFE and FW
 
         . '.\bits\upload mod-CFE etc then write CFE and FW.ps1'
-        write-host $g2
+        write-host -foregroundcolor green $g1
         pause
 		
     }
-    h{ # set auto IP by dhcp
-        . '.\bits\set auto IP by DHCP.ps1'
+	
+	h{ # set manual IP in subnet 1
+        . '.\bits\set manual IP in subnet 1.ps1'
     }
+	
     i{
         . '.\bits\wait for router to return on subnet 1.ps1'
     }
+	
     j{
-        write-host $j1
+        write-host -foregroundcolor green $j1
         pause
         . '.\bits\secret sauce to clean MTD.ps1'
     }
 
+    k{ # set auto IP by dhcp
+        . '.\bits\set auto IP by DHCP.ps1'
+    }
 
+	
+	
+	
     x{ # show current network config
         . '.\bits\show current network config.ps1'
     }
-    y{ # set manual IP in subnet 1
-        . '.\bits\set manual IP in subnet 1.ps1'
-    }
+
     z{ # TFTP flash old Tmo FW via subnet 1
         . '.\bits\TFTP flash old Tmo FW via subnet 1.ps1'
     }

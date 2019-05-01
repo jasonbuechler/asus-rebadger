@@ -40,6 +40,8 @@ $push_files = "new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx"
 write-host ''
 write-host '** Now copying/uploading 3 files to the router via SCP...'
 write-host '**   (new_cfe.bin, mtd-write, FW_RT_AC68U_30043763626.trx)'
+write-host '** Via this command: '
+write-host '**    > scp $opts $push_files admin@$gw`:~/ '
 write-host ''
 
 
@@ -59,6 +61,8 @@ $postSCPpreSSH = @"
 **    > ls -al
 **    > ./mtd-write -i new_cfe.bin -d boot 
 **    > mtd-write2 FW_RT_AC68U_30043763626.trx linux
+** Via this command:
+**    > ssh $opts admin@$gw $cmds
 
 "@
 write-host $postSCPpreSSH
@@ -75,7 +79,7 @@ $postSSH = @"
 ** Above, you should just see the remote directory listing AND right under
 ** it, "linux: CRC OK" if the trx flashed successfully.
 **
-** (If instead you saw "BUS ERROR", you should reboot the router, wait, and try this again.)
+** You should also scroll up slightly to verify the upload went OK.
 
 "@
 write-host -backgroundcolor red $postSSH

@@ -133,7 +133,7 @@ Switch -regex ($bit){
     e{ # TFTP flash old Tmo FW via subnet 29 
         write-host $e1 # start tftp + 2 agonizing mins
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
-        write-host $e2 # this is the tftp result & it's rebooting
+        write-host -backgroundcolor red $e2 # this is the tftp result & it's rebooting
 		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }

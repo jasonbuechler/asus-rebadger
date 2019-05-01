@@ -12,8 +12,8 @@ If (($eths | Get-NetIPConfiguration).IPv4Address.IPAddress) {
 If (($eths | Get-NetIPConfiguration).Ipv4DefaultGateway) {
     Remove-NetRoute -AddressFamily ipv4 -Confirm:$false -InterfaceIndex $ii
     write-host ''
-    write-host '**   99% chance you can ignore the above error, if there is one'
-    write-host '**   99% chance you can ignore the above error, if there is one'
+    write-host '**   If there is a Remove-NetRoute error above: dont worry.'
+    write-host '**   Better than 99% chance you can just ignore it.'
     write-host ''
 }
 

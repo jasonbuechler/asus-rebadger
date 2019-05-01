@@ -30,7 +30,7 @@ if( $ethscount -ne 1 ){
 }
 
 
-write-host "** Your network adapter is #$ii"
-write-host "** Your network adapters name is" $eths.name
-write-host "** Your current configuration looks like:"
+write-host -backgroundcolor red "** Your network adapter is #$ii"
+write-host -backgroundcolor red "** Your network adapters name is" $eths.name
+write-host -backgroundcolor red "** Your current configuration looks like:"
 netsh int ip show addresses $eths.name

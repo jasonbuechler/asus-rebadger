@@ -20,5 +20,4 @@ NECESSARY FILES:
 * ``TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx (MD5: E617E8E4326D61EF7DECC751FA3D40D4)`` 
 
 
-Video demo: https://www.youtube.com/watch?v=ncJQMEMQXbo&feature=youtu.be  
-Demo runthrough log: https://github.com/jasonbuechler/asus-rebadger/blob/master/demo-runthrough.txt
+Video demo: https://youtu.be/J7SYNOZQ504

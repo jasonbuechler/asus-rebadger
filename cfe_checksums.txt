@@ -7,6 +7,7 @@ Algorithm       Hash                                         Path
 ---------       ----                                         ----
 MD5             569185D6C4D3D478E7B9EAA8DA6391CD             CFE rt-ac68u_1.0.2.0_us.bin
 MD5             A085F40331B41727CCC0FCE11349CA85             CFE tm-ac1900_2.1.2.1_q2.bin
+MD5             F5231357177D8AA084F8B0C63E88CC4D             CFE tm-ac1900_2.1.2.2_z4.bin
 
 
 PS C:\Users\Jason> get-filehash -algorithm sha1 *bin
@@ -14,3 +15,4 @@ Algorithm       Hash                                         Path
 ---------       ----                                         ----
 SHA1            B0B20E32E5EC70CB30400E3027992D0E1C6F3F15     CFE rt-ac68u_1.0.2.0_us.bin
 SHA1            E246710F034D00EF8F66D16709099588CEA62A78     CFE tm-ac1900_2.1.2.1_q2.bin
+SHA1            6C1569F1F18179BB48109F54C8D72F4D42F446EB     CFE tm-ac1900_2.1.2.2_z4.bin

@@ -2,14 +2,14 @@
 # CFE tm-ac1900_2.1.2.1_q2.bin = tm-ac1900_2.1.2.1_q2.bin
 
 
-PS C:\Users\Jason\Downloads\TM-AC1900toRT-AC68U\resource-library> get-filehash -algorithm md5 *bin
+PS C:\Users\Jason> get-filehash -algorithm md5 *bin
 Algorithm       Hash                                         Path
 ---------       ----                                         ----
 MD5             569185D6C4D3D478E7B9EAA8DA6391CD             CFE rt-ac68u_1.0.2.0_us.bin
 MD5             A085F40331B41727CCC0FCE11349CA85             CFE tm-ac1900_2.1.2.1_q2.bin
 
 
-PS C:\Users\Jason\Downloads\TM-AC1900toRT-AC68U\resource-library> get-filehash -algorithm sha1 *bin
+PS C:\Users\Jason> get-filehash -algorithm sha1 *bin
 Algorithm       Hash                                         Path
 ---------       ----                                         ----
 SHA1            B0B20E32E5EC70CB30400E3027992D0E1C6F3F15     CFE rt-ac68u_1.0.2.0_us.bin

@@ -1,0 +1,22 @@
+# mtd-write1v1 = mtd-write v1
+# mtd-write1v2 = mtd-write v2
+# mtd-write1v3 = mtd-write v3
+#
+# (Because /sbin/mtd-write2, onboard the router, is
+#  something different... a softlink to /sbin/rc.)
+
+
+PS C:\Users\jason> get-filehash -algorithm md5 *
+Algorithm       Hash                                         Path
+---------       ----                                         ----
+MD5             FCD82F96EFDF5797055F95A3572B88FF             mtd-write1v1
+MD5             976AF09C3C3FAC59D3D7E33AC037A88B             mtd-write1v2
+MD5             DC162789E82618AC4E0F6A252A083F8F             mtd-write1v3
+
+
+PS C:\Users\jason> get-filehash -algorithm sha1 *
+Algorithm       Hash                                         Path
+---------       ----                                         ----
+SHA1            3A5E70288E71062F11E4EA01064C6E2CCF080C57     mtd-write1v1
+SHA1            51F08764AE248D2E5F4F69BF8DCAC9E98373CBDC     mtd-write1v2
+SHA1            9047C766BA0F8E9D10D17C6B39530267028CADAA     mtd-write1v3

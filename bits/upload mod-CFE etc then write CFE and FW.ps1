@@ -11,15 +11,42 @@
 
 write-host $preupload
 pause
-
 rm  ~/.ssh/*
+
+
+# get router IP from current IP
+$ipv4 = (Get-NetIPAddress -InterfaceIndex $ii).ipv4address
+$ipv4 = "$ipv4".trim()
+$gw = $ipv4 -replace "\.\d+$",".1"
+
+# may need diff options for most recent fw?
+$opts = "-oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false"
+
+# SSH & SCP strings
+# don't forget semicolons and (probably) end-quotes
+$cmds = @"
+"
+chmod 777 mtd-write; 
+ls -al; 
+./mtd-write -i new_cfe.bin -d boot; 
+mtd-write2 FW_RT_AC68U_30043763626.trx linux
+"
+"@
+$cmds = $cmds -replace "\n",""
+$push_files = "new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx"
+
+
 
 write-host ''
 write-host '** Now copying/uploading 3 files to the router via SCP...'
 write-host '**   (new_cfe.bin, mtd-write, FW_RT_AC68U_30043763626.trx)'
 write-host ''
 
-scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
+
+
+# scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false new_cfe.bin mtd-write FW_RT_AC68U_30043763626.trx admin@192.168.29.1:~/
+# holy shit this is cleaner
+cmd /c "scp $opts $push_files admin@$gw`:~/"
 
 $postSCPpreSSH = @"
 
@@ -36,7 +63,11 @@ $postSCPpreSSH = @"
 "@
 write-host $postSCPpreSSH
 
-ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "chmod 777 mtd-write; ls -al; ./mtd-write -i new_cfe.bin -d boot; mtd-write2 FW_RT_AC68U_30043763626.trx linux"
+
+
+# ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "chmod 777 mtd-write; ls -al; ./mtd-write -i new_cfe.bin -d boot; mtd-write2 FW_RT_AC68U_30043763626.trx linux"
+# i mean come on look how much more readable!
+cmd /c "ssh $opts admin@$gw $cmds"
 
 $postSSH = @"
 
@@ -47,4 +78,4 @@ $postSSH = @"
 ** (If instead you saw "BUS ERROR", you should reboot the router, wait, and try this again.)
 
 "@
-write-host $postSSH
+write-host -backgroundcolor red $postSSH

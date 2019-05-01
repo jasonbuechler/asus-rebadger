@@ -13,7 +13,29 @@ $predownload = @"
 
 write-host $predownload
 pause
-		
 rm  ~/.ssh/*
-ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "cat /dev/mtd0 > original_cfe.bin; ls -al"
-scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1:~/original_cfe.bin ./original_cfe.bin
+
+
+# get router IP from current IP
+$ipv4 = (Get-NetIPAddress -InterfaceIndex $ii).ipv4address
+$ipv4 = "$ipv4".trim()
+$gw = $ipv4 -replace "\.\d+$",".1"
+
+# may need diff options for most recent fw?
+$opts = "-oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false"
+
+# SSH & SCP strings
+# don't forget semicolons and (probably) end-quotes
+$cmds = @"
+"
+cat /dev/mtd0 > original_cfe.bin; 
+ls -al
+"
+"@
+$cmds = $cmds -replace "\n",""
+
+
+# ssh -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1 "cat /dev/mtd0 > original_cfe.bin; ls -al"
+# scp -oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false admin@192.168.29.1:~/original_cfe.bin ./original_cfe.bin
+cmd /c "ssh $opts admin@$gw $cmds"
+cmd /c "scp $opts admin@$gw`:~/original_cfe.bin ./original_cfe.bin"

@@ -89,20 +89,21 @@ $c1 = @"
 $e1 = @"
 
 ** Beginning TFTP transfer!!'
-** Remember: youll probably see nothing happening for 2 full agonizing minutes.'
-** Keep holding that reset button until you see the xfer is complete.'
+** Remember: youll probably see nothing happening for 2 full agonizing minutes.
+** Keep holding that reset button until you see the xfer is complete.
 
 "@
 
 $e2 = @"
-                    ^^^^^^
-                THIS IS THE TFTP RESULT! 
------------------------------------------------------
 
-** The TFTP step is over.
-** If all went well, the router should be rebooting right now.
-** 
-** You'll know it's fully rebooted when both 2.4 & 5ghz wifi LEDs are on.
+                    ^^^^^^                                                 <
+                THIS IS THE TFTP RESULT!                                   <
+-----------------------------------------------------                      <
+                                                                           <
+** The TFTP step is over.                                                  <
+** If all went well, the router should be rebooting right now.             <
+**                                                                         <
+** You'll know it's fully rebooted when both 2.4 & 5ghz wifi LEDs are on.  <
 
 "@
 

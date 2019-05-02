@@ -75,11 +75,11 @@ cmd /c "ssh $opts admin@$gw $cmds"
 
 $postSSH = @"
 
-** ...SSH executation phase comp.. comp.. com... compl... complete.
-** Above, you should just see the remote directory listing AND right under
-** it, "linux: CRC OK" if the trx flashed successfully.
-**
-** You should also scroll up slightly to verify the upload went OK.
+** ...SSH executation phase comp.. comp.. com... compl... complete.          <
+** Above, you should just see the remote directory listing AND right under   <
+** it, "linux: CRC OK" if the trx flashed successfully.                      <
+**                                                                           <
+** You should also scroll up slightly to verify the upload went OK.          <
 
 "@
 write-host -backgroundcolor red $postSSH

@@ -1,6 +1,7 @@
 # The Badger v2.2.0 by Jason Buechler
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=J7SYNOZQ504" target="_blank"><img src="https://github.com/jasonbuechler/asus-rebadger/blob/master/github_resources/youtube-thumb.png?raw=true" alt="badger v220 in action" width="480" height="360" border="10" /></a>
+Video demo: https://www.youtube.com/watch?v=J7SYNOZQ504
 
 REQUIREMENTS:
 * A relatively recently updated Windows 10 computer
@@ -26,8 +27,6 @@ NECESSARY FILES:
 
 # Demo
 
-Video demo: https://www.youtube.com/watch?v=J7SYNOZQ504
-
 ## Easily handles the difficult "recovery mode" operation to revert to old T-Mo firmware
 ![tftp-downgrade](https://github.com/jasonbuechler/asus-rebadger/blob/master/github_resources/badger220-tftp-downgrade.gif?raw=true)
 
@@ -37,4 +36,4 @@ Video demo: https://www.youtube.com/watch?v=J7SYNOZQ504
 ## Does all the "secret commands" to fix the MTD5 partition and allow unlocked firmware
 ![secret-sauce-and-unlocked-firmware](https://github.com/jasonbuechler/asus-rebadger/blob/master/github_resources/badger220-secret-sauce-and-unlocked-firmware.gif?raw=true)
 
-## And basically everything else too.
+...And basically everything else too.

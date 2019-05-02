@@ -13,8 +13,8 @@ MAKE IT DO:
 * however you run it, if it determines you need to do so, it will alert you that it will relaunch itself properly 
  
 NECESSARY FILES: 
-* badger.ps1---------> https://github.com/jasonbuechler/asus-rebadger/releases
-* bits/*.ps1---/
+* badger.ps1  ------> https://github.com/jasonbuechler/asus-rebadger/releases
+* bits/*.ps1 -------/ 
 * downloads from bayareatechpros
   * ``FW_RT_AC68U_30043763626.trx ........... (MD5: C9D544EFD51DAD31C7A0E533DBD2005B)`` 
   * ``mtd-write ............................. (MD5: DC162789E82618AC4E0F6A252A083F8F)`` 

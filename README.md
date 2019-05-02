@@ -1,6 +1,7 @@
 # The Badger v2.2.0 by Jason Buechler
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=J7SYNOZQ504" target="_blank"><img src="https://github.com/jasonbuechler/asus-rebadger/blob/master/github_resources/youtube-thumb.png?raw=true" alt="badger v220 in action" width="480" height="360" border="10" /></a>
+
 Video demo: https://www.youtube.com/watch?v=J7SYNOZQ504
 
 REQUIREMENTS:

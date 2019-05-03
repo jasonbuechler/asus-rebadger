@@ -1,6 +1,6 @@
 # mtd-write1v1 = mtd-write v1
 # mtd-write1v2 = mtd-write v2  <--- recommended by most
-# mtd-write1v3 = mtd-write v3  <--- version from BayAreaTechPros (!!?)
+# mtd-write1v3 = mtd-write v3  <--- vers from BayAreaTechPros/recent asus fws
 #
 # (Because /sbin/mtd-write2, onboard the router, is
 #  something different... a softlink to /sbin/rc.)

@@ -1,13 +1,14 @@
 $menu = @"
 
 /========= MAIN MENU / INSTRUCTIONS ==============================
+| 
 |  A) verify/select your ethernet adapter
 |  B) set manual IP in subnet 29
 |  ** Boot router into recovery mode:
 |  **    turn on router while holding reset (> 2min)
 |  C) Perform (D) and (E) together
-|  D)    wait for router to return on subnet 29
-|  E)    TFTP flash old Tmo FW via subnet 
+|  D)    wait for router to return on current subnet
+|  E)    TFTP flash old Tmo FW on current subnet 
 |  ** Enable SSH on router (Administration > System)
 |  F) download Tmo CFE to local
 |  ** Use your CFE and cfeditor.pipeline.sh to make new_cfe.bin
@@ -23,9 +24,9 @@ $menu = @"
 |  NOTE: **Steps (G) thru (J) must be executed exactly
 |        in order and without interuption. Repeat those
 |        steps if anything wasn't perfect.
-|
+| 
 |  X) show current network config
-|  Z) TFTP flash old Tmo FW via subnet 1
+| 
 \=================================================================
 
 "@
@@ -94,18 +95,6 @@ $e1 = @"
 
 "@
 
-$e2 = @"
-
-                    ^^^^^^                                                 <
-                THIS IS THE TFTP RESULT!                                   <
------------------------------------------------------                      <
-                                                                           <
-** The TFTP step is over.                                                  <
-** If all went well, the router should be rebooting right now.             <
-**                                                                         <
-** You'll know it's fully rebooted when both 2.4 & 5ghz wifi LEDs are on.  <
-
-"@
 
 
 

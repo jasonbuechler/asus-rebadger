@@ -7,7 +7,7 @@
 ##
 ##########################################################
 ## 
-## The Badger v2.2.0 by Jason Buechler
+## The Badger v2.3.0 by Jason Buechler
 ##
 
 write-host ''
@@ -120,7 +120,6 @@ Switch -regex ($bit){
 		#this part is a copy of switch 'e'
         write-host $e1 # start tftp + 2 agonizing mins
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
-        write-host -backgroundcolor red $e2 # this is the tftp result & it's rebooting
 		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }
@@ -133,7 +132,6 @@ Switch -regex ($bit){
     e{ # TFTP flash old Tmo FW via subnet 29 
         write-host $e1 # start tftp + 2 agonizing mins
         . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
-        write-host -backgroundcolor red $e2 # this is the tftp result & it's rebooting
 		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }
@@ -175,10 +173,6 @@ Switch -regex ($bit){
 	
     x{ # show current network config
         . '.\bits\show current network config.ps1'
-    }
-
-    z{ # TFTP flash old Tmo FW via subnet 1
-        . '.\bits\TFTP flash old Tmo FW via subnet 1.ps1'
     }
 
     '[a-jx-zA-JX-Z]'{ $history += "$bit," }

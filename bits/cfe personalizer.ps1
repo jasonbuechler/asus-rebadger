@@ -57,7 +57,7 @@ $kill4_valB = [system.text.encoding]::ASCII.GetBytes($kill4_val)
 # ex:   38:2C:4A:EF:3E:88 [1233 / 0x4d1] <-- et0macaddr=38:2C:4A:EF:3E:88
 #       |                  |                 |
 #   mac pattern            |                 |
-#              decimal/hex byte-0 address    |
+#              byte-0 decimal/hex address    |
 #                                    full matched pattern
 $reporting = @"
 original_cfe.bin
@@ -71,10 +71,11 @@ new_cfe.bin (before patching)
 * $kill2_val [$kill2_addr / $([String]::Format("0x{0:x3}", $kill2_addr))] <-- $($kill2.matches.value)
 * $kill3_val [$kill3_addr / $([String]::Format("0x{0:x3}", $kill3_addr))] <-- $($kill3.matches.value)
 * $kill4_val [$kill4_addr / $([String]::Format("0x{0:x3}", $kill4_addr))] <-- $($kill4.matches.value)
+
 "@
 write-host $reporting -foregroundColor yellow
 pause
-
+write-host ''
 
 
 # open the CFE for read-checks
@@ -90,7 +91,7 @@ $fs.close()
 
 $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $keep3_val ){
-    write-host -foregroundcolor green "indeed it matched"
+    write-host -foregroundcolor green "1st read-address sanity check passed :)"
 }else{
     write-host -foregroundcolor red "fail!"
     pause
@@ -110,12 +111,13 @@ $fs.close()
 
 $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $kill3_val ){
-    write-host -foregroundcolor green "indeed it matched"
+    write-host -foregroundcolor green "2nd read-address sanity check passed :)"
 }else{
     write-host -foregroundcolor red "fail!"
     pause
 }
 
+write-host ''
 write-host "** (Backing up $cfe to $cfe_bak.)"
 write-host "** Now using critical vals from original_cfe.bin to overwrite those in new_cfe.bin"
 cp $cfe_new $cfe_bak
@@ -126,8 +128,33 @@ $fs.seek($kill2_addr, 'Begin') | out-null
 $fs.write($keep2_valB, 0, 17) | out-null
 $fs.seek($kill3_addr, 'Begin') | out-null
 $fs.write($keep3_valB, 0, 17) | out-null
+$fs.seek($kill4_addr, 'Begin') | out-null
+$fs.write($keep4_valB, 0, 8) | out-null
 $fs.close()
 
+
+$check1 = select-string -encoding default -path $cfe_new -pattern "et0macaddr=$macpatt"
+$check2 = select-string -encoding default -path $cfe_new -pattern "0\:macaddr=$macpatt"
+$check3 = select-string -encoding default -path $cfe_new -pattern "1\:macaddr=$macpatt"
+$check4 = select-string -encoding default -path $cfe_new -pattern "secret_code=$wpspatt"
+
+$keep1.Matches.value -eq $check1.Matches.value
+$keep2.Matches.value -eq $check2.Matches.value
+$keep3.Matches.value -eq $check3.Matches.value
+$keep4.Matches.value -eq $check4.Matches.value
+
+pause
+
+
+#
+# Convert string to byte array:
+#  [system.text.encoding]::ASCII.GetBytes("AA:BB:CC:DD:EE:FF")
+#
+# Convert byte array to string:
+#  [System.Text.Encoding]::ASCII.GetString($bytes)
+#
+
+$old = @"
 
 #
 # now we prep for the last sanity check:
@@ -150,13 +177,5 @@ $fs.close()
 
 write-host "** $cfe_unp should now be identical to $cfe_bak"
 write-host "** (demonstrating modification addresses were accurate)"
-pause
 
-
-#
-# Convert string to byte array:
-#  [system.text.encoding]::ASCII.GetBytes("AA:BB:CC:DD:EE:FF")
-#
-# Convert byte array to string:
-#  [System.Text.Encoding]::ASCII.GetString($bytes)
-#
+"@

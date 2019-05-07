@@ -1,4 +1,10 @@
-﻿
+﻿##
+## If you are running this script independant of The Badger, you should 
+## edit the $cfe filenames below to reflect the entire path to the files.
+## e.g. c:\users\you\folder\original_cfe.bin   ...etc...
+##
+
+
 $cfe     = 'original_cfe.bin'
 $cfe_new = 'new_cfe.bin'
 $cfe_bak = 'new_cfe.bin.bak'

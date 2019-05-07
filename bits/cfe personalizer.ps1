@@ -154,6 +154,14 @@ $fs.write($keep4_valB, 0, 8) | out-null # we only have 8 bytes cuz WPS code
 $fs.close()
 
 
+
+#
+# SANITY CHECK #3
+#
+# since we only wrote the core mac/wps pattern to new_cfe.bin, if we grep
+# again for the 4 full patterns, and all match the original 4 full patterns
+# then we have verified the expected writes all landed perfectly.
+#
 $check1 = select-string -encoding default -path $cfe_new -pattern "et0macaddr=$macpatt"
 $check2 = select-string -encoding default -path $cfe_new -pattern "0\:macaddr=$macpatt"
 $check3 = select-string -encoding default -path $cfe_new -pattern "1\:macaddr=$macpatt"

@@ -136,10 +136,10 @@ write-host ''
 # compare array with keep_val
 #
 $bytes = New-Object -TypeName Byte[] -ArgumentList 17
-$bytes.clear()								# zeroes all 17 elements of $bytes (unnecessary but nice)
-$fs = [IO.File]::OpenRead($cfe) 			# open original_cfe.bin as filestream "$fs" (for reading)
-$fs.Seek($keep3_addr,'Begin') | out-null	# set the "current" address to presumed address of keep3_val
-$fs.Read($bytes,0,17) | out-null 			# read 17 bytes from cfe into the 17-byte buffer, "$bytes"
+$bytes.clear()                              # zeroes all 17 elements of $bytes (unnecessary but nice)
+$fs = [IO.File]::OpenRead($cfe)             # open original_cfe.bin as filestream "$fs" (for reading)
+$fs.Seek($keep3_addr,'Begin') | out-null    # set the "current" address to presumed address of keep3_val
+$fs.Read($bytes,0,17) | out-null            # read 17 bytes from cfe into the 17-byte buffer, "$bytes"
 $fs.close()
 $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $keep3_val ){
@@ -156,10 +156,10 @@ if( $bytes_as_string -eq $keep3_val ){
 # now we repeat the process to check address validity in the other (new) cfe filestream
 # (since it's a different origin, who knows, maybe it has different encoding)
 #
-$bytes.clear()								# zeroes all 17 elements of $bytes (good idea now)
-$fs = [IO.File]::OpenRead($cfe_new) 		# open new_cfe.bin as filestream "$fs" (for reading)
-$fs.Seek($kill3_addr,'Begin') | out-null	# set the "current" address to presumed address of kill3_val
-$fs.Read($bytes,0,17) | out-null 			# read 17 bytes from cfe into the 17-byte buffer, "$bytes"
+$bytes.clear()                              # zeroes all 17 elements of $bytes (good idea now)
+$fs = [IO.File]::OpenRead($cfe_new)         # open new_cfe.bin as filestream "$fs" (for reading)
+$fs.Seek($kill3_addr,'Begin') | out-null    # set the "current" address to presumed address of kill3_val
+$fs.Read($bytes,0,17) | out-null            # read 17 bytes from cfe into the 17-byte buffer, "$bytes"
 $fs.close()
 $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $kill3_val ){

@@ -25,6 +25,11 @@ NECESSARY FILES:
   * ``FW_RT_AC68U_30043763626.trx ........... (MD5: C9D544EFD51DAD31C7A0E533DBD2005B)`` 
   * ``mtd-write ............................. (MD5: DC162789E82618AC4E0F6A252A083F8F)`` 
   * ``TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx (MD5: E617E8E4326D61EF7DECC751FA3D40D4)`` 
+* optional but recommended
+  * ``rt-ac68u_1.0.2.0_us.bin`` or similarly named CFE file of version 1.0.2.0
+    * pretty easily found with a couple minutes of googling (esp on slickdeals), but also...
+	* in the "tmo2ac68u" package here: https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot
+  * if you don't download this file in advance, you'll be prompted to visit cfeditor.pipeline.sh in the middle of the process
 
 
 # Demo

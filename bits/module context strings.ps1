@@ -127,7 +127,12 @@ $f1 = @"
 **                                                                                            
 ** The Badger should have just downloaded your original bootloader 
 ** (original_cfe.bin) to the same directory as everything else.
-** Now you need to create a modified CFE using it...
+** Now you need to create a modified CFE using that...
+**
+** If you previously found and downloaded rt-ac68u_1.0.2.0_us.bin and 
+** renamed it to new_cfe.bin, then you can just use The Badger's step (Y) 
+** at the main menu to create it. Otherwise you'll need to set your network
+** adapter back to DHCP, follow steps below, and set a manual IP again.
 **                                            
 **   1. go to https://cfeditor.pipeline.sh/
 **   2. click the "up arrow" under "original cfe"
@@ -139,6 +144,7 @@ $f1 = @"
 **      (make absolutely sure it's not named "new_cfe.bin.bin" or something)
 **                                            
 ** The Badger can now upload all the goodies to the router and flash the FW.
+** Reminder: after these steps, make sure you have your manual IP set!!!
 **
 **********************************************************************************
 
@@ -223,5 +229,20 @@ $j1 = @"
 
 $y1 = @"
 
+********** YOUR PARTICIPATION NOW REQUIRED **********************************************
+**
+** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger
+**  $cfe = created from your router (in step (F)) and containing its MAC addresses 
+**  and WPS key which will be copied into $cfe_new now.
+**  $cfe_new = any other CFE file (of a version you want) which gets personalized via 
+**  the MAC/WPS info from $cfe.
+**
+** You must download a $cfe_new yourself (since I don't want to host them). Most people 
+**  probably will want rt-ac68u_1.0.2.0_us.bin which can be found in the "tmo2ac68u" 
+**  package listed here: https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot
+**  or by just spending a couple minutes googling for it. It should have a .bin suffix
+**  and you should rename it to $cfe_new yourself.
+**
+******************************************************************************************
 
 "@

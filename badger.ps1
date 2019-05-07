@@ -1,13 +1,16 @@
 
-##########################################################
+#####################################################################
+##
+## IF YOU OPENED THIS SCRIPT IN NOTEPAD...
+##       ...close Notepad, right-click it, and "Run with PowerShell"
 ##
 ## IF YOU OPENED THIS SCRIPT IN "PowerShell ISE"...
 ##    (as opposed to 'executing' it)
 ##       ...HIT THE GREEN 'PLAY/TRIANGLE', ABOVE.
 ##
-##########################################################
+#####################################################################
 ## 
-## The Badger v2.3.0 by Jason Buechler
+## The Badger v2.4.0 by Jason Buechler
 ##
 
 write-host ''
@@ -171,6 +174,7 @@ Switch -regex ($bit){
 	
 	y{ # personalize a new CFE.bin
 		write-host -foregroundcolor green $y1
+		pause
 		. '.\bits\cfe personalizer.ps1'
 	}
 

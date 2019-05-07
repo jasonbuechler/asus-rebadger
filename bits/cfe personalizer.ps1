@@ -6,6 +6,45 @@ $cfe_bak = 'new_cfe.bin.bak'
 $macpatt = "(([0-9A-FX]{2}\:){5}[0-9A-FX]{2})" # note the X in there for "XX:XX:XX..." prepped cfe's
 $wpspatt = "([0-9X]{8})"
 
+$test_cfe1 = test-path($cfe)
+$test_cfe2 = test-path($cfe_new)
+$test_cfe3 = test-path($cfe_bak)
+$neederror = @"
+
+** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger
+**  $cfe = created from your router, and containing its MAC addresses and WPS key
+**  $cfe_new = any other CFE file (of a version you want) which gets personalized via 
+**  the MAC/WPS info from $cfe.
+** Note: $cfe is created by menu (F) of The Badger. You must download a $cfe_new 
+**  yourself (since I don't want to host them). Most people probably will want version
+**  1.0.2.0 (US) which can be found in the "tmo2ac68u" package listed here:
+**  https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot
+**  or by just spending a couple minutes googling for it. It should have a .bin suffix
+**  and you should rename it to $cfe_new yourself.
+**
+** Re-run this tool when both files are present.
+
+"@
+$bakerror = @"
+
+** This tool copies $cfe_new to a backup file named $cfe_bak, but that file already
+** exists. Out of abundance of caution, you must move that file before continuing.
+**
+** Re-run this tool after doing so.
+
+"@
+
+if(-not $test_cfe1 -or -not $test_cfe2){
+	write-host -foregroundcolor red $neederror
+	pause
+	exit
+}
+if( $test_cfe3 ){
+	write-host -foregroundcolor red $bakerror
+	pause
+	exit
+}
+
 # NOTE: Yes, I'm fully aware this code could be made (a lot) cleaner by
 #  using some list/array to store this stuff, and later iterate through
 #  in a simple loop... but I want this to be as readable as possible

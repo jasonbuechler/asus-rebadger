@@ -17,36 +17,36 @@ $test_cfe2 = test-path($cfe_new)
 $test_cfe3 = test-path($cfe_bak)
 $neederror = @"
 
-** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger
-**  $cfe = created from your router, and containing its MAC addresses and WPS key
-**  $cfe_new = any other CFE file (of a version you want) which gets personalized via 
-**  the MAC/WPS info from $cfe.
-** Note: $cfe is created by menu (F) of The Badger. You must download a $cfe_new 
-**  yourself (since I don't want to host them). Most people probably will want version
-**  1.0.2.0 (US) which can be found in the "tmo2ac68u" package listed here:
-**  https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot
-**  or by just spending a couple minutes googling for it. It should have a .bin suffix
-**  and you should rename it to $cfe_new yourself.
-**
-** Re-run this tool when both files are present.
+** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger   <
+**  $cfe = created from your router, and containing its MAC addresses and WPS key        <
+**  $cfe_new = any other CFE file (of a version you want) which gets personalized via    <
+**  the MAC/WPS info from $cfe.                                                          <
+** Note: $cfe is created by menu (F) of The Badger. You must download a $cfe_new         <
+**  yourself (since I don't want to host them). Most people probably will want version   <
+**  1.0.2.0 (US) which can be found in the "tmo2ac68u" package listed here:              <
+**  https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot                        <
+**  or by just spending a couple minutes googling for it. It should have a .bin suffix   <
+**  and you should rename it to $cfe_new yourself.                                       <
+**                                                                                       <
+** Re-run this tool when both files are present.                                         <
 
 "@
 $bakerror = @"
 
-** This tool copies $cfe_new to a backup file named $cfe_bak, but that file already
-** exists. Out of abundance of caution, you must move that file before continuing.
-**
-** Re-run this tool after doing so.
+** This tool copies $cfe_new to a backup file named $cfe_bak, but that file already      <
+** exists. Out of abundance of caution, you must move that file before continuing.       <
+**                                                                                       <
+** Re-run this tool after doing so.                                                      <
 
 "@
 
 if(-not $test_cfe1 -or -not $test_cfe2){
-	write-host -foregroundcolor red $neederror
+	write-host -backgroundcolor red $neederror
 	pause
 	exit
 }
 if( $test_cfe3 ){
-	write-host -foregroundcolor red $bakerror
+	write-host -backgroundcolor red $bakerror
 	pause
 	exit
 }
@@ -71,12 +71,18 @@ $kill3 = select-string -encoding default -path $cfe_new -pattern "1\:macaddr=$ma
 $kill4 = select-string -encoding default -path $cfe_new -pattern "secret_code=$wpspatt"
 
 # to keep the code readable, we're explicitly labeling everything
-$keep1_addr = $keep1.Matches.Groups[1].Index # 1st mac in the cfe's first-byte location
-$keep2_addr = $keep2.Matches.Groups[1].Index
+#   * byte-addresses of the 4 matches we want to copy to new_cfe.bin
+#   * string-value of the 4 matches (MAC addrress/WPS code) we're keeping
+#   * byte-values of the 4 matches we're keeping
+# and we are writing over the new_cfe.bin with that info
+#   * byte-addresses of the 4 matches we're writing over ("kill"ing)
+#   * string-values of the 4 matches we're writing over, for logging
+$keep1_addr = $keep1.Matches.Groups[1].Index # byte-address of first matched byte of 1st MAC-to-keep
+$keep2_addr = $keep2.Matches.Groups[1].Index # byte-address of first matched byte of 2nd MAC-to-keep
 $keep3_addr = $keep3.Matches.Groups[1].Index
 $keep4_addr = $keep4.Matches.Groups[1].Index
-$keep1_val  = $keep1.Matches.Groups[1].Value # 1st mac in the cfe's string values
-$keep2_val  = $keep2.Matches.Groups[1].Value
+$keep1_val  = $keep1.Matches.Groups[1].Value # string-value of 1st MAC-to-keep
+$keep2_val  = $keep2.Matches.Groups[1].Value # string-value of 2nd MAC-to-keep
 $keep3_val  = $keep3.Matches.Groups[1].Value
 $keep4_val  = $keep4.Matches.Groups[1].Value
 $keep1_valB = [system.text.encoding]::ASCII.GetBytes($keep1_val) # byte values of the 1st mac in the cfe
@@ -91,10 +97,7 @@ $kill1_val  = $kill1.Matches.Groups[1].Value
 $kill2_val  = $kill2.Matches.Groups[1].Value
 $kill3_val  = $kill3.Matches.Groups[1].Value
 $kill4_val  = $kill4.Matches.Groups[1].Value
-$kill1_valB = [system.text.encoding]::ASCII.GetBytes($kill1_val)
-$kill2_valB = [system.text.encoding]::ASCII.GetBytes($kill2_val)
-$kill3_valB = [system.text.encoding]::ASCII.GetBytes($kill3_val)
-$kill4_valB = [system.text.encoding]::ASCII.GetBytes($kill4_val) # note this (WPS code) is only 8 bytes
+
 
 #
 # This next big chunk is purely for informational logging/notification.
@@ -106,6 +109,7 @@ $kill4_valB = [system.text.encoding]::ASCII.GetBytes($kill4_val) # note this (WP
 #   mac pattern            |                 |
 #              byte-0 decimal/hex address    |
 #                                    full matched pattern
+#
 $reporting = @"
 
 original_cfe.bin
@@ -141,7 +145,7 @@ $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $keep3_val ){
     write-host -foregroundcolor green "1st (read-address) sanity check passed :)"
 }else{
-    write-host -foregroundcolor red "fail! bytes read from $cfe didn't match the expected mac-address pattern."
+    write-host -backgroundcolor red "fail! bytes read from $cfe didn't match the expected mac-address pattern."
     pause
 }
 
@@ -161,7 +165,7 @@ $bytes_as_string = [System.Text.Encoding]::ASCII.GetString($bytes)
 if( $bytes_as_string -eq $kill3_val ){
     write-host -foregroundcolor green "2nd (read-address) sanity check passed :)"
 }else{
-    write-host -foregroundcolor red "fail! bytes read from $cfe_new didn't match the expected mac-address pattern."
+    write-host -backgroundcolor red "fail! bytes read from $cfe_new didn't match the expected mac-address pattern."
     pause
 }
 
@@ -213,7 +217,7 @@ if(      ($keep1.Matches.value -eq $check1.Matches.value) `
 {
     write-host -foregroundcolor green "3rd (pattern-compare) sanity check passed :)"
 }else{
-    write-host -ForegroundColor red "Somehow one of the $cfe_new patterns doesn't match $cfe."
+    write-host -backgroundcolor red "Somehow one of the $cfe_new patterns doesn't match $cfe."
 }
 
 write-host ''

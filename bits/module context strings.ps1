@@ -231,11 +231,12 @@ $y1 = @"
 
 ********** YOUR PARTICIPATION NOW REQUIRED **********************************************
 **
-** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger
-**  $cfe = created from your router (in step (F)) and containing its MAC addresses 
-**  and WPS key which will be copied into $cfe_new now.
-**  $cfe_new = any other CFE file (of a version you want) which gets personalized via 
-**  the MAC/WPS info from $cfe.
+** This tool requires two files named original_cfe.bin and new_cfe.bin to be in the 
+** same directory as The Badger (badger.ps1) is:
+** * original_cfe.bin = was created using your router (in step (F)) and contains its 
+**   MAC addresses and WPS key, which will be copied into new_cfe.bin now.
+** * new_cfe.bin = any other CFE file (of a version you want) which gets personalized
+**   via the MAC/WPS info from original_cfe.bin.
 **
 ** You must download a $cfe_new yourself (since I don't want to host them). Most people 
 **  probably will want rt-ac68u_1.0.2.0_us.bin which can be found in the "tmo2ac68u" 

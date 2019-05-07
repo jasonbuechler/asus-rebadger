@@ -1,10 +1,4 @@
-﻿write-host "psscriptroot = $psscriptroot"
-pause
-
-cd "$PSScriptRoot\.."
-$pwd = pwd
-[Environment]::CurrentDirectory = pwd
-
+﻿
 $cfe     = 'original_cfe.bin'
 $cfe_new = 'new_cfe.bin'
 $cfe_bak = 'new_cfe.bin.bak'

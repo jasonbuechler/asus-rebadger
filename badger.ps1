@@ -49,27 +49,21 @@ if($reopen){
 
 
 
-
-
 #
-# gather info on environment
+# gather/report info on environment
 # mostly for any future debugging
 #
+$pwd = $PSScriptRoot					# eg: PS C:\Users\user1\Downloads\badger230\badger.ps1
+set-location $pwd 						# powershell-native utils use this
+[Environment]::CurrentDirectory = $pwd	# .net-native utils use this (aka IO.FILE read/write)
+
 $winver = [Environment]::OSVersion.VersionString
 $relid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
-
-# just in case the script was executed when pwd != $PSScriptRoot
-#   e.g.: PS C:\Users\user1 powershell Downloads\badger.ps1
-cd $PSScriptRoot
-$pwd = pwd
-
-$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State
-
-$opts376_1703 = '-oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false'
-$opts376_3626 = '-oHostKeyAlgorithms=+ssh-dss -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=false'
+$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State	# is TFTP enabled?
 
 write-host "** Host machine: $winver ($relid)"
 write-host "** TFTP state: $tftpstate"
+write-host "** PowerShell .net CD: $([Environment]::CurrentDirectory)"
 write-host "** This script is being run from: $pwd"
 write-host '** These *.trx files are in this directory:'
 ls *trx

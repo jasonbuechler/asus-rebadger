@@ -1,0 +1,19 @@
+sh -x -c "`echo "$*"|sed 
+	-e 's,	[.][.]\([0-9A-F][0-9A-F]\),%\1,g' 	--->  ..([0-9A-F][0-9A-F]),  \1,  g
+	-e 's,	%20,	 ,	g'                        \-->                  __FF,  FF
+	-e 's,	%23,	#,	g' 
+	-e 's,	%24,	$,	g' 
+	-e 's,	%2F,	/,	g' 
+	-e 's,	%3A,	:,	g' 
+	-e 's,	%3B,	;,	g' 
+	-e 's,	%3C,	<,	g' 
+	-e 's,	%3D,	=,	g' 
+	-e 's,	%3E,	>,	g' 
+	-e 's,	%5F,	_,	g' 
+	-e 's,	%25,	%,	g' `"
+  
+  
+Regarding:
+Appendix 4:  Script: 
+For reference, this is a script name “u.txt” to do partial URL decode, where .. is used instead of %  and then execute the results ( http://docbill.freeshell.org/u.txt ) :
+sh -x -c "`echo "$*"|sed -e 's,[.][.]\([0-9A-F][0-9A-F]\),%\1,g' -e 's,%20, ,g' -e 's,%23,#,g' -e 's,%24,$,g' -e 's,%2F,/,g' -e 's,%3A,:,g' -e 's,%3B,;,g' -e 's,%3C,<,g' -e 's,%3D,=,g' -e 's,%3E,>,g' -e 's,%5F,_,g' -e 's,%25,%,g' `"

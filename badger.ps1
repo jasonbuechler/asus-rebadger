@@ -174,6 +174,11 @@ Switch -regex ($bit){
     x{ # show current network config
         . '.\bits\show current network config.ps1'
     }
+	
+	y{ # personalize a new CFE.bin
+		write-host -foregroundcolor green $y1
+		. '.\bits\cfe personalizer.ps1'
+	}
 
     '[a-jx-zA-JX-Z]'{ $history += "$bit," }
 }}

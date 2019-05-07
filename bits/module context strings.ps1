@@ -26,6 +26,7 @@ $menu = @"
 |        steps if anything wasn't perfect.
 | 
 |  X) show current network config
+|  Y) personalize a new CFE.bin (using an old/backup one)
 | 
 \=================================================================
 
@@ -220,4 +221,7 @@ $j1 = @"
 "@
 
 
+$y1 = @"
 
+
+"@

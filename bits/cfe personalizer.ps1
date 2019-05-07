@@ -1,4 +1,9 @@
-﻿
+﻿write-host "psscriptroot = $psscriptroot"
+pause
+
+cd "$PSScriptRoot\.."
+$pwd = pwd
+[Environment]::CurrentDirectory = pwd
 
 $cfe     = 'original_cfe.bin'
 $cfe_new = 'new_cfe.bin'
@@ -159,7 +164,7 @@ if(      ($keep1.Matches.value -eq $check1.Matches.value) `
     -and ($keep3.Matches.value -eq $check3.Matches.value) `
     -and ($keep4.Matches.value -eq $check4.Matches.value) )
 {
-    write-host -foregroundcolor green "3nd (pattern-compare) sanity check passed :)"
+    write-host -foregroundcolor green "3rd (pattern-compare) sanity check passed :)"
 }else{
     write-host -ForegroundColor red "Somehow one of the $cfe_new patterns doesn't match $cfe."
 }

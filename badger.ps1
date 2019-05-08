@@ -138,9 +138,9 @@ Switch -regex ($bit){
         write-host '**   (If it takes > 40 sec, something went wrong)'
         . '.\bits\wait for router to return on subnet 29.ps1'
     }
-    e{ # TFTP flash old Tmo FW via subnet 29 
+    e{ # TFTP flash old Tmo FW via *current* subnet 
         write-host $e1 # start tftp + 2 agonizing mins
-        . '.\bits\TFTP flash old Tmo FW via subnet 29.ps1'
+        . '.\bits\TFTP flash old Tmo FW via current subnet.ps1'
 		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }

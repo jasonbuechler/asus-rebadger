@@ -1,4 +1,4 @@
-# The Badger v2.4.0 by Jason Buechler
+# The Badger v2.5.0 by Jason Buechler
 
 Video demo: https://www.youtube.com/watch?v=J7SYNOZQ504
 > <a href="http://www.youtube.com/watch?feature=player_embedded&v=J7SYNOZQ504" target="_blank"><img src="https://github.com/jasonbuechler/asus-rebadger/blob/master/github_resources/youtube-thumb.png?raw=true" alt="badger v220 in action" width="480" height="360" border="10" /></a>
@@ -10,6 +10,7 @@ REQUIREMENTS:
 * Administrator privileges for the user running the script
 * All network adapters, besides one ethernet, to be disabled/disconnected
 * __Several files that I'm not hosting or including because I have no idea what the licenses are and am not interested in taking that obligation on... BUT, they're easy to find. Grab them from this famous instructional page:__ https://www.bayareatechpros.com/ac1900-to-ac68u/
+* Optional (but recommended) is an rt-ac68u CFE .bin file of the version you desire. The most commonly needed one can be found in the "tmo2ac68u" package here: https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot or via a little googling.
 
 MAKE IT DO:
 * verify you've collected all the files in one place (see below)
@@ -25,11 +26,9 @@ NECESSARY FILES:
   * ``FW_RT_AC68U_30043763626.trx ........... (MD5: C9D544EFD51DAD31C7A0E533DBD2005B)`` 
   * ``mtd-write ............................. (MD5: DC162789E82618AC4E0F6A252A083F8F)`` 
   * ``TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx (MD5: E617E8E4326D61EF7DECC751FA3D40D4)`` 
-* optional but recommended
+* optional download/alternative process
   * ``rt-ac68u_1.0.2.0_us.bin`` or similarly named CFE file of version 1.0.2.0
-    * pretty easily found with a couple minutes of googling (esp on slickdeals), but also...
-	* in the "tmo2ac68u" package here: https://wiki.dd-wrt.com/wiki/index.php/Asus_T-Mobile_Cellspot
-  * if you don't download this file in advance, you'll be prompted to visit cfeditor.pipeline.sh in the middle of the process
+  * (if you don't download this file in advance, you'll be prompted to visit cfeditor.pipeline.sh in the middle of the process)
 
 
 # Demo

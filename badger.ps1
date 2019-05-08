@@ -10,16 +10,14 @@
 ##
 #####################################################################
 ## 
-## The Badger v2.4.0 by Jason Buechler
+## The Badger v2.5.0 by Jason Buechler
 ##
 
 write-host ''
-write-host '****************************'
-write-host '** The Badger is on the move'
-write-host '****************************'
+write-host '*****************************                        '
+write-host '** The Badger is on the move                   v2.5.0'
+write-host '*****************************                        '
 write-host ''
-
-
 
 
 
@@ -53,27 +51,41 @@ if($reopen){
 
 
 #
-# gather/report info on environment
-# mostly for any future debugging
+# Gather/report info on the current running environment (mostly for any future 
+# debugging) ...and prepare the environment where necessary.
 #
-$pwd = $PSScriptRoot					# eg: PS C:\Users\user1\Downloads\badger230\badger.ps1
-set-location $pwd 						# powershell-native utils use this
-[Environment]::CurrentDirectory = $pwd	# .net-native utils use this (aka IO.FILE read/write)
-
-$winver = [Environment]::OSVersion.VersionString
-$relid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
+$pwd = $PSScriptRoot								# eg: PS C:\Users\user1\Downloads\badger230\badger.ps1
+set-location $pwd									# powershell-native utils use this
+[Environment]::CurrentDirectory = $pwd				# .net-native utils use this (aka IO.FILE read/write)
+$winver = [Environment]::OSVersion.VersionString	# full windows version
+$relid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId # feature update
 $tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State	# is TFTP enabled?
-
-write-host "** Host machine: $winver ($relid)"
-write-host "** TFTP state: $tftpstate"
-write-host "** PowerShell .net CD: $([Environment]::CurrentDirectory)"
-write-host "** This script is being run from: $pwd"
-write-host '** These *.trx files are in this directory:'
+if($tftpstate -ne 'Enabled'){ # if TFTP isn't enabled, try enabling and check again
+    write-host "** The TFTP 'windows feature' isn't enabled: Attempting to enable TFTP now..." -foregroundcolor yellow
+    Enable-WindowsOptionalFeature -Online -FeatureName "TFTP" -all # surprisingly easy/simple command to enable
+    $tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State # check again to verify tftp is enabled
+    if($tftpstate -ne 'Enabled'){
+		write-host ''
+        write-host '** Couldnt enable TFTP feature!!!                 <' -backgroundcolor red
+        write-host '** TFTP is necessary to escape tmo firmware.      <' -backgroundcolor red
+		write-host ''
+		write-host '** Try manually enabling it: www.thewindowsclub.com/enable-tftp-windows-10' -foregroundcolor yellow
+		write-host ''
+        pause
+        Exit
+    }else{
+        write-host "** The TFTP 'windows feature' was successfully enabled." -foregroundcolor green
+    }
+}
+write-host -foregroundcolor yellow "** Host machine: $winver ($relid)"
+write-host -foregroundcolor yellow "** TFTP state: $tftpstate"
+write-host -foregroundcolor yellow "** This script is being run from: $pwd"
+write-host -foregroundcolor yellow "** PowerShell .net CD: $([Environment]::CurrentDirectory)"
+write-host -foregroundcolor yellow '** These *.trx files are in this directory:'
 ls *trx
 write-host ''
-write-host '** Proceeding without checking if all the files are present (!!!)'
+write-host -foregroundcolor yellow '** Proceeding without checking if all the files are present (!!!)'
 write-host ''
-
 
 
 

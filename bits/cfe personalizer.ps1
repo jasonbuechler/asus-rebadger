@@ -12,9 +12,6 @@ $cfe_bak = 'new_cfe.bin.bak'
 $macpatt = "(([0-9A-FX]{2}\:){5}[0-9A-FX]{2})" # note the X in there for "XX:XX:XX..." prepped cfe's
 $wpspatt = "([0-9X]{8})"
 
-$test_cfe1 = test-path($cfe)
-$test_cfe2 = test-path($cfe_new)
-$test_cfe3 = test-path($cfe_bak)
 $neederror = @"
 
 ** This tool requires both $cfe and $cfe_new to be in the same directory as The Badger   <
@@ -39,7 +36,20 @@ $bakerror = @"
 ** Re-run this tool after doing so.                                                      <
 
 "@
+$exoticerror = @"
 
+** This tool expects CFE .bin files with a very specific format, but it seems that       <
+** one or both of your CFE files have the wrong number of MAC addresses appearing        <
+** within. Out of an abundance of caution, we cannot proceed until you provide CFE       <
+** .bin files that fit the expected format.                                              <
+**                                                                                       <
+** Re-run this tool after doing so.                                                      <
+
+"@
+
+$test_cfe1 = test-path($cfe)
+$test_cfe2 = test-path($cfe_new)
+$test_cfe3 = test-path($cfe_bak)
 if(-not $test_cfe1 -or -not $test_cfe2){
 	write-host -backgroundcolor red $neederror
 	pause
@@ -50,6 +60,16 @@ if( $test_cfe3 ){
 	pause
 	exit
 }
+
+$count_orig = (select-string -encoding default -path $cfe -pattern "macaddr=$macpatt").matches.groups.count
+$count_new  = (select-string -encoding default -path $cfe_new -pattern "macaddr=$macpatt").matches.groups.count
+if($count_orig -ne 3 -or $count_new -ne 3){
+	write-host -backgroundcolor red $exoticerror
+	pause
+	exit
+}
+
+
 
 # NOTE: Yes, I'm fully aware this code could be made (a lot) cleaner by
 #  using some list/array to store this stuff, and later iterate through

@@ -123,7 +123,7 @@ Switch -regex ($bit){
 		#this part is a copy of switch 'd'	
 		write-host '** Waiting for router to enter recovery mode...'
         write-host '**   (If it takes > 40 sec, something went wrong)'
-        . '.\bits\wait for router to return on subnet 29.ps1'
+        . '.\bits\wait for router to return on current subnet.ps1'
 
 		
 		#this part is a copy of switch 'e'
@@ -132,11 +132,11 @@ Switch -regex ($bit){
 		write-host -foregroundcolor green $e3 # enable ssh instructions
         pause
     }
-    d{ # wait for router to return on subnet 29
+    d{ # wait for router to return on current subnet
         #looks like i'll have to add some more logic for the short window
         write-host '** Waiting for router to enter recovery mode...'
         write-host '**   (If it takes > 40 sec, something went wrong)'
-        . '.\bits\wait for router to return on subnet 29.ps1'
+        . '.\bits\wait for router to return on current subnet.ps1'
     }
     e{ # TFTP flash old Tmo FW via *current* subnet 
         write-host $e1 # start tftp + 2 agonizing mins
@@ -164,7 +164,7 @@ Switch -regex ($bit){
     }
 	
     i{
-        . '.\bits\wait for router to return on subnet 1.ps1'
+        . '.\bits\wait for router to return on current subnet.ps1'
     }
 	
     j{

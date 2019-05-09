@@ -1,4 +1,12 @@
-﻿# get router IP from current IP
+﻿# previously selecting your network adapter is now mandatory
+if(-not $ii){
+    write-host "You need to select your network adapter before you can do this."
+    write-host "  (use menu option A)"
+    pause
+    Exit
+}
+
+# get router IP from current IP
 $ipv4 = (Get-NetIPAddress -InterfaceIndex $ii).ipv4address
 $ipv4 = "$ipv4".trim()
 $gw = $ipv4 -replace "\.\d+$",".1"
@@ -8,9 +16,8 @@ write-host "Immediately executing TFTP transfer to $gw ..."
 tftp -i $gw put TM-AC1900_3.0.0.4_376_1703-g0ffdbba.trx
 
 $posttftp = @"
-
-                    ^^^^^^                                                 <
-                THIS IS THE TFTP RESULT!                                   <
+               ^^^^^^                                                      <
+           THIS IS THE TFTP RESULT!                                        <
 -----------------------------------------------------                      <
                                                                            <
 ** The TFTP step is over.                                                  <

@@ -16,7 +16,7 @@ $menu = @"
 |  ** Perform NVRAM reset
 |  **    turn on router while holding WPS (~ 15sec)
 |  H) set manual IP in subnet 1
-|  I) wait for router to return on subnet 1
+|  I) wait for router to return on current subnet
 |  ** Enable SSH on router (again)
 |  J) secret sauce to clean MTD
 |  K) set auto IP by DHCP

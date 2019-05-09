@@ -1,4 +1,4 @@
-﻿
+﻿# previously selecting your network adapter is mandatory
 if(-not $ii){
     write-host "You need to select your network adapter before you can do this."
     write-host "  (use menu option A)"

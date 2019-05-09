@@ -127,13 +127,14 @@ $f1 = @"
 **                                                                                            
 ** The Badger should have just downloaded your original bootloader 
 ** (original_cfe.bin) to the same directory as everything else.
-** Now you need to create a modified CFE using that...
+** Now you need to create a modified CFE using it...
 **
-** If you previously found and downloaded rt-ac68u_1.0.2.0_us.bin and 
-** renamed it to new_cfe.bin, then you can just use The Badger's step (Y) 
-** at the main menu to create it. Otherwise you'll need to set your network
-** adapter back to DHCP, follow steps below, and set a manual IP again.
+** If you already have a v1.0.2.0 (or whatever) .bin CFE file then you can use
+** The Badger's CFE personalizer: menu option (Y).
+**
+** If not you'll need to...
 **                                            
+**   0. re-enable DHCP using The Badger's menu option (K)
 **   1. go to https://cfeditor.pipeline.sh/
 **   2. click the "up arrow" under "original cfe"
 **   3. select "1.0.2.0 US" under "source cfe" 
@@ -142,9 +143,9 @@ $f1 = @"
 **   5. move the downloaded file to the same folder as badger.ps1  
 **   6. rename that downloaded file to "new_cfe.bin" 
 **      (make absolutely sure it's not named "new_cfe.bin.bin" or something)
+**   7. (again) manually configure your network adapter (menu option (B))
 **                                            
 ** The Badger can now upload all the goodies to the router and flash the FW.
-** Reminder: after these steps, make sure you have your manual IP set!!!
 **
 **********************************************************************************
 

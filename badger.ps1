@@ -104,6 +104,7 @@ Switch -regex ($bit){
     a{ # verify/select your ethernet adapter
 
         . '.\bits\select ethernet adapter.ps1'
+		. '.\bits\show current network config.ps1' # show current network config (also menu X)
         write-host -foregroundcolor green $a1
         pause
 

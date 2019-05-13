@@ -28,7 +28,7 @@ If ($interface.Dhcp -eq "Disabled") {
     $interface | Set-NetIPInterface -DHCP Enabled
 
     # Configure the DNS Servers automatically
-    #$interface | Set-DnsClientServerAddress -ResetServerAddresses
+    $interface | Set-DnsClientServerAddress -ResetServerAddresses
 }
 
 #

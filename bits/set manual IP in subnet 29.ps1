@@ -22,7 +22,10 @@ If (($eths | Get-NetIPConfiguration).Ipv4DefaultGateway) {
 }
 
 New-NetIPAddress -InterfaceIndex $ii -IPAddress 192.168.29.5 -PrefixLength 24 -DefaultGateway 192.168.29.1 | Out-Null
-#Set-DnsClientServerAddress -ServerAddresses 192.168.29.1 -InterfaceIndex $ii
+Set-DnsClientServerAddress -ServerAddresses 192.168.29.1 -InterfaceIndex $ii 
+# I wasn't going to deal with DNS in this tool to avoid complications/misunderstandings
+# but there's probably still a lot of people who want to use the CFEditor website
+
 while ( -not (Get-NetIPAddress -InterfaceIndex $ii).ipv4address ){
     write-host '** (Waiting for IPv4 address to set...)'
     Start-Sleep -Seconds 2

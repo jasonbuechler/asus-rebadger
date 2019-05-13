@@ -5,6 +5,10 @@
     Exit
 }
 
+# "log" the current configuration for any future debugging
+. '.\bits\show current network config.ps1'
+write-host '** The Badger is now attempting to set a manual IP: 192.168.1.xx...'
+
 # clean out old records
 If (($eths | Get-NetIPConfiguration).IPv4Address.IPAddress) {
     Remove-NetIPAddress -AddressFamily ipv4 -Confirm:$false -InterfaceIndex $ii
@@ -18,7 +22,10 @@ If (($eths | Get-NetIPConfiguration).Ipv4DefaultGateway) {
 }
 
 New-NetIPAddress -InterfaceIndex $ii -IPAddress 192.168.1.5 -PrefixLength 24 -DefaultGateway 192.168.1.1 | Out-Null
-#Set-DnsClientServerAddress -ServerAddresses 192.168.1.1 -InterfaceIndex $ii
+Set-DnsClientServerAddress -ServerAddresses 192.168.1.1 -InterfaceIndex $ii 
+# I wasn't going to deal with DNS in this tool to avoid complications/misunderstandings
+# but there's probably still a lot of people who want to use the CFEditor website
+
 while ( -not (Get-NetIPAddress -InterfaceIndex $ii).ipv4address ){
     write-host '** (Waiting for IPv4 address to set...)'
     Start-Sleep -Seconds 2

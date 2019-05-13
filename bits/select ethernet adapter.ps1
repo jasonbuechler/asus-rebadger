@@ -27,10 +27,9 @@ if( $ethscount -ne 1 ){
     }
 }else{
     $ii = $eths.ifIndex
+	write-host ''
+	write-host "** The badger has automatically selected your network adapter, for you." -foregroundcolor yellow
+	write-host "**  (...Because it's currently the only eligible network adapter.)" -foregroundcolor yellow
+	write-host "** Please verify this is correct." -foregroundcolor yellow
+	write-host ''
 }
-
-
-write-host -backgroundcolor red "** Your network adapter is #$ii"
-write-host -backgroundcolor red "** Your network adapters name is" $eths.name
-write-host -backgroundcolor red "** Your current configuration looks like:"
-netsh int ip show addresses $eths.name

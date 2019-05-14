@@ -39,6 +39,13 @@ $posttftp2 = @"
 ** it's now got Tmo firmware, its webgui is on subnet 1...
 ** AND the admin configuration is also still set: admin/admin.
 
+** But...
+** ...if you saw "Connect request failed" as an error following
+** the TFTP push, and your router is on a very very recent 
+** version of tmo's firmware (v3199+) you may need to do a 
+** bunch of extra steps. Visit here for more info:
+** https://github.com/jasonbuechler/asus-rebadger/wiki/Troubleshooting
+
 "@
 #write-host $posttftp2
 

@@ -12,6 +12,7 @@ $menu = @"
 |  ** Enable SSH on router (Administration > System)
 |  F) download Tmo CFE to local
 |  ** Use your CFE and cfeditor.pipeline.sh to make new_cfe.bin
+|  **    or use menu-Y to mod a CFE to match your router
 |  G) upload mod'd CFE & etc then "write" CFE and FW
 |  ** Perform NVRAM reset
 |  **    turn on router while holding WPS (~ 15sec)
@@ -134,7 +135,6 @@ $f1 = @"
 **
 ** If not you'll need to...
 **                                            
-**   0. re-enable DHCP using The Badger's menu option (K)
 **   1. go to https://cfeditor.pipeline.sh/
 **   2. click the "up arrow" under "original cfe"
 **   3. select "1.0.2.0 US" under "source cfe" 
@@ -143,7 +143,6 @@ $f1 = @"
 **   5. move the downloaded file to the same folder as badger.ps1  
 **   6. rename that downloaded file to "new_cfe.bin" 
 **      (make absolutely sure it's not named "new_cfe.bin.bin" or something)
-**   7. (again) manually configure your network adapter (menu option (B))
 **                                            
 ** The Badger can now upload all the goodies to the router and flash the FW.
 **

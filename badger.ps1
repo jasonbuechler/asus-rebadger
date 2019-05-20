@@ -54,16 +54,18 @@ if($reopen){
 # Gather/report info on the current running environment (mostly for any future 
 # debugging) ...and prepare the environment where necessary.
 #
-$pwd = $PSScriptRoot								# eg: PS C:\Users\user1\Downloads\badger230\badger.ps1
-set-location $pwd									# powershell-native utils use this
-[Environment]::CurrentDirectory = $pwd				# .net-native utils use this (aka IO.FILE read/write)
-$winver = [Environment]::OSVersion.VersionString	# full windows version
-$relid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId # feature update
-$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State	# is TFTP enabled?
+$pwd = $PSScriptRoot                                # eg: PS C:\Users\user1\Downloads\badger230\badger.ps1
+set-location $pwd                                   # powershell-native utils use this
+[Environment]::CurrentDirectory = $pwd              # .net-native utils use this (aka IO.FILE read/write)
+$winver = [Environment]::OSVersion.VersionString    # "full" windows version
+$relid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId # "feature update" version
+$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State                # is TFTP enabled?
+
+
 if($tftpstate -ne 'Enabled'){ # if TFTP isn't enabled, try enabling and check again
 	write-host "** The TFTP 'windows feature' isn't enabled: Attempting to enable TFTP now..." -foregroundcolor yellow
-	Enable-WindowsOptionalFeature -Online -FeatureName "TFTP" -all # surprisingly easy/simple command to enable
-	$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State # check again to verify tftp is enabled
+	Enable-WindowsOptionalFeature -Online -FeatureName "TFTP" -all              # surprisingly easy/simple command to enable
+	$tftpstate = (Get-WindowsOptionalFeature -FeatureName "TFTP" -online).State # is TFTP enabled, *now*?
 	if($tftpstate -ne 'Enabled'){
 		write-host ''
 		write-host '** Couldnt enable TFTP feature!!!                 <' -backgroundcolor red
@@ -77,6 +79,13 @@ if($tftpstate -ne 'Enabled'){ # if TFTP isn't enabled, try enabling and check ag
 		write-host "** The TFTP 'windows feature' was successfully enabled." -foregroundcolor green
 	}
 }
+
+
+
+# 
+# now that all of the environment info has been gathered...
+# print it all out... might help future geeks help n00bs
+#
 write-host -foregroundcolor yellow "** Host machine: $winver ($relid)"
 write-host -foregroundcolor yellow "** TFTP state: $tftpstate"
 write-host -foregroundcolor yellow "** This script is being run from: $pwd"
@@ -88,8 +97,12 @@ write-host -foregroundcolor yellow '** Proceeding without checking if all the fi
 write-host ''
 
 
+#
 # re: $a1, $b1, etc....
-# Load external strings for menu/option/switch context
+# Load these strings externally by executing the 
+# "module context strings" ps1 which just loads 
+# menu/option/switch context in vars
+#
 . '.\bits\module context strings.ps1'
 
 $history = ''

@@ -29,7 +29,7 @@ $cmds = @"
 chmod 777 mtd-write; 
 ls -al; 
 # mtd-write gives the wrong usage info. The -d argument does not work.
-./mtd-write -i new_cfe.bin boot; 
+./mtd-write new_cfe.bin boot; 
 mtd-write2 FW_RT_AC68U_30043763626.trx linux
 "
 "@
@@ -60,7 +60,7 @@ $postSCPpreSSH = @"
 **    If you're curious, it's SSH'ing in and executing these:
 **    > chmod 777 mtd-write 
 **    > ls -al
-**    > ./mtd-write -i new_cfe.bin -d boot 
+**    > ./mtd-write new_cfe.bin boot 
 **    > mtd-write2 FW_RT_AC68U_30043763626.trx linux
 ** Via this command:
 **    > ssh $opts admin@$gw $cmds
